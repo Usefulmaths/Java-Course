@@ -1,0 +1,11 @@
+# OSX
+.DS_Store
+
+# Eclipse
+.project
+.classpath
+bin/
+
+# Java
+*.class
+
