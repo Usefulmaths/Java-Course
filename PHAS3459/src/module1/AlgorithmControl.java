@@ -16,9 +16,10 @@ public class AlgorithmControl {
 		System.out.println("Total number of steps (200): " + steps1);
 		System.out.println("Total number of steps (50,000): " + steps2);
 
-		// As you increase the number of loops until steps are printed, the
-		// total about of steps increases.
-		// This is because printing to the console is a very slow operation.
+		System.out.println(
+				"As you increase the number of loops until the steps are printed, the total amount of steps increases. "
+						+ "This is because printing to the console is a very slow operation.");
+
 	}
 
 	private void loop() {

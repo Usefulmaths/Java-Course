@@ -6,12 +6,12 @@ public class VectorMethods {
 		VectorMethods vm = new VectorMethods();
 
 		final double setOneAngle = vm.angle(2, 4, 1, 5, 3, 1);
-
-		// Output NaN (Not a Number) due to division by zero in angle method.
 		final double setTwoAngle = vm.angle(2, 4, 1, 0, 0, 0);
 
 		System.out.println("The angle between the vectors (2,4,1) and (5,3,1) is: " + setOneAngle);
 		System.out.println("The angle between the vectors (2,4,1) and (0,0,0) is: " + setTwoAngle);
+		System.out.println("Output NaN (Not a Number) due to division by zero in angle method.");
+
 	}
 
 	private double dotProduct(final double x1, final double y1, final double z1, final double x2, final double y2,

@@ -33,20 +33,16 @@ public class DataTypes {
 		final String stringBooleanVar = "a" + true;
 		System.out.println(stringBooleanVar); // same as above = atrue
 
-		// When the variable i hasn't been initialised, Eclipse prompts to give
-		// it an initial value.
-		// We are unable to obtain an updated j by adding an integer 1. (i is
-		// null)
 		/**
 		 * int j=1; int i; j = i + 1;
 		 **/
+		System.out.println(
+				"i hasn't been initialised. Error obtained when trying to add an integer to an uninitialised variable");
 
-		// When we cast a double as an integer, the resulting integer variable
-		// drops the digits
-		// beyond the decimal point.
 		final double doubVariable = 4.99;
 		final int castedDoubVariable = (int) doubVariable;
 		System.out.println(castedDoubVariable);
+		System.out.println("Casting a double as an integer drops the digits beyond the decimal point.");
 
 	}
 }
