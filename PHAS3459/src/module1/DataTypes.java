@@ -3,7 +3,7 @@ package module1;
 public class DataTypes {
 	public static void main(String[] args) {
 
-		final double doubVar = 10.0d;
+		final double doubVar = 10.0; //10.0d not needed, floating point numbers default to double in Java.
 		System.out.println("doubVar: " + doubVar);
 
 		final float floatVar = 10.0f;
