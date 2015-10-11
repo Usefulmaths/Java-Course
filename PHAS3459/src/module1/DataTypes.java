@@ -36,8 +36,7 @@ public class DataTypes {
 		/**
 		 * int j=1; int i; j = i + 1;
 		 **/
-		System.out.println(
-				"i hasn't been initialised. Error obtained when trying to add an integer to an uninitialised variable");
+		//i hasn't been initialised. Error obtained when trying to add an integer to an uninitialised variable, i is a null variable.
 
 		final double doubVariable = 4.99;
 		final int castedDoubVariable = (int) doubVariable;
