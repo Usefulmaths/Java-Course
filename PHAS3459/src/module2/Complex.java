@@ -26,7 +26,17 @@ public class Complex {
 	}
 
 	double angle() {
-		return Math.atan(this.imag / this.real);
+
+		if (this.imag > 0) {
+			if (this.real >= 0) {
+				return Math.atan(this.imag / this.real);
+			}
+			return Math.atan(this.imag / -this.real);
+		}
+		if (this.real > 0) {
+			return 2 * Math.PI - Math.atan(-this.imag / this.real);
+		}
+		return Math.PI + Math.atan(-this.imag / -this.real);
 	}
 
 	Complex conjugate() {
@@ -50,8 +60,22 @@ public class Complex {
 	}
 
 	void setFromModulusAngle(double mag, double ang) {
-		this.real = mag * Math.cos(ang);
-		this.imag = mag * Math.sin(ang);
+
+		if (ang >= 0 && ang <= Math.PI / 2) {
+
+			this.real = mag * Math.cos(ang);
+			this.imag = mag * Math.sin(ang);
+
+		} else if (ang > Math.PI / 2 && ang <= Math.PI) {
+			this.real = -mag * Math.sin(ang - Math.PI / 2);
+			this.imag = mag * Math.cos(ang - Math.PI / 2);
+		} else if (ang > Math.PI && ang <= Math.PI * 3 / 2) {
+			this.real = -mag * Math.cos(ang - Math.PI);
+			this.imag = -mag * Math.sin(ang - Math.PI);
+		} else if (ang > Math.PI * 3 / 2 && ang <= Math.PI * 2) {
+			this.real = mag * Math.sin(ang - Math.PI * 3 / 2);
+			this.real = -mag * Math.cos(ang - Math.PI * 3 / 2);
+		}
 	}
 
 	static Complex add(Complex c1, Complex c2) {
