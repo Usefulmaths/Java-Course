@@ -27,13 +27,13 @@ public class Complex {
 
 	double angle() {
 
-		if (this.imag > 0) {
+		if (this.imag >= 0) {
 			if (this.real >= 0) {
 				return Math.atan(this.imag / this.real);
 			}
-			return Math.atan(this.imag / -this.real);
+			return Math.PI - Math.atan(this.imag / -this.real);
 		}
-		if (this.real > 0) {
+		if (this.real >= 0) {
 			return 2 * Math.PI - Math.atan(-this.imag / this.real);
 		}
 		return Math.PI + Math.atan(-this.imag / -this.real);
@@ -56,7 +56,10 @@ public class Complex {
 	}
 
 	public String toString() {
-		return this.real + " + " + this.imag + "i";
+		if (this.imag >= 0) {
+			return this.real + " + " + this.imag + "i";
+		}
+		return this.real + " - " + -this.imag + "i";
 	}
 
 	void setFromModulusAngle(double mag, double ang) {
@@ -94,5 +97,4 @@ public class Complex {
 		return new Complex(Complex.multiply(c1, c2.conjugate()).real / (c2.real * c2.real + c2.imag * c2.imag),
 				Complex.multiply(c1, c2.conjugate()).imag / (c2.real * c2.real + c2.imag * c2.imag));
 	}
-
 }
