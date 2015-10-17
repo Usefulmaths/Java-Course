@@ -3,9 +3,9 @@ package module2;
 public class TestThreeVector {
 	public static void main(String[] args) {
 		// Creating three instances of the ThreeVector class
-		ThreeVector v1 = new ThreeVector(4, 3, 3);
-		ThreeVector v2 = new ThreeVector(3, 5, 2);
-		ThreeVector v3 = new ThreeVector(0, 0, 0);
+		final ThreeVector v1 = new ThreeVector(4, 3, 3);
+		final ThreeVector v2 = new ThreeVector(3, 5, 2);
+		final ThreeVector v3 = new ThreeVector(0, 0, 0);
 
 		// Printing the ThreeVectors and their corresponding unit vectors
 		System.out.println("Vector \n" + v1 + "\n" + "Unit \n" + v1.unitVector() + "\n");
@@ -38,7 +38,7 @@ public class TestThreeVector {
 		System.out.println("Angle between v1, v3 (non-static) in radians: " + v1.angle(v3));
 
 		// Printing out without toString() method.
-		System.out.println(v1); //Use this with toString() method commented out.
+		System.out.println(v1); // Use this with toString() method commented out
 		System.out.println("Instead of displaying a nice formatted string, it displays the objects ID.");
 
 	}
