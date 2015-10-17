@@ -1,13 +1,13 @@
 package module2;
 
 public class ThreeVector {
-	double x;
-	double y;
-	double z;
+	private final double x;
+	private final double y;
+	private final double z;
 
 	// Constructor to set/store x, y, z through calling a new instance of a
-	// ThreeVector Object.
-	public ThreeVector(double x, double y, double z) {
+	// ThreeVector Object
+	public ThreeVector(final double x, final double y, final double z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -30,12 +30,12 @@ public class ThreeVector {
 	}
 
 	// Magnitude of vector. Square root of the sum of the components squared.
-	double magnitude() {
+	public double magnitude() {
 		return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
 	}
 
 	// Returns a ThreeVector with a direction and magnitude of 1.
-	ThreeVector unitVector() {
+	public ThreeVector unitVector() {
 		// Normalising components
 		double normx = this.x / this.magnitude();
 		double normy = this.y / this.magnitude();
@@ -52,50 +52,48 @@ public class ThreeVector {
 	}
 
 	// Scalar Product (Static)
-	static double scalarProduct(ThreeVector threeVec1, ThreeVector threeVec2) {
+	public static double scalarProduct(final ThreeVector threeVec1, final ThreeVector threeVec2) {
 		return threeVec1.x * threeVec2.x + threeVec1.y * threeVec2.y + threeVec1.z * threeVec2.z;
 	}
 
 	// Vector Product (Static). Determined by determinant of matrix with two
 	// vectors.
-	static ThreeVector vectorProduct(ThreeVector threeVec1, ThreeVector threeVec2) {
+	public static ThreeVector vectorProduct(final ThreeVector threeVec1, final ThreeVector threeVec2) {
 		return new ThreeVector(threeVec1.y * threeVec2.z - threeVec1.z * threeVec2.y,
 				threeVec1.z * threeVec2.x - threeVec1.x * threeVec2.z,
 				threeVec1.x * threeVec2.y - threeVec1.y * threeVec2.x);
 	}
 
 	// Vector Addition (Static)
-	static ThreeVector add(ThreeVector threeVec1, ThreeVector threeVec2) {
+	public static ThreeVector add(final ThreeVector threeVec1, final ThreeVector threeVec2) {
 		return new ThreeVector(threeVec1.x + threeVec2.x, threeVec1.y + threeVec2.y, threeVec1.z + threeVec2.z);
 	}
 
 	// Angle between two vectors (Static). Measured in radians (Java default)
-	static double angle(ThreeVector threeVec1, ThreeVector threeVec2) {
-		// Using definition of scalar product ScalarProduct =
-		// Magnitude(v1)*Magnitude(v2) Cos(angle)
+	public static double angle(final ThreeVector threeVec1, final ThreeVector threeVec2) {
 		return Math.acos(
 				ThreeVector.scalarProduct(threeVec1, threeVec2) / (threeVec1.magnitude() * threeVec2.magnitude()));
 	}
 
 	// Scalar Product (Non-static)
-	double scalarProduct(ThreeVector threeVec) {
+	public double scalarProduct(final ThreeVector threeVec) {
 		return ThreeVector.scalarProduct(this, threeVec);
 	}
 
 	// Vector Product (Non-static)
-	ThreeVector vectorProduct(ThreeVector threeVec) {
+	public ThreeVector vectorProduct(final ThreeVector threeVec) {
 		return ThreeVector.vectorProduct(this, threeVec);
 
 	}
 
 	// Vector Addition (Non-static)
-	ThreeVector add(ThreeVector threeVec) {
+	public ThreeVector add(final ThreeVector threeVec) {
 		return ThreeVector.add(this, threeVec);
 	}
 
 	// Angle between current ThreeVector Object and another ThreeVector
 	// (Non-static) in radians (Java Default)
-	double angle(ThreeVector threeVec) {
+	public double angle(final ThreeVector threeVec) {
 		return ThreeVector.angle(this, threeVec);
 
 	}
