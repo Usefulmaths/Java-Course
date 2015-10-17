@@ -38,7 +38,7 @@ public class TestThreeVector {
 		System.out.println("Angle between v1, v3 (non-static) in radians: " + v1.angle(v3));
 
 		// Printing out without toString() method.
-		System.out.println(v1);
+		System.out.println(v1); //Use this with toString() method commented out.
 		System.out.println("Instead of displaying a nice formatted string, it displays the objects ID.");
 
 	}
