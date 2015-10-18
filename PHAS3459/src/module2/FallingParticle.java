@@ -7,7 +7,7 @@ public class FallingParticle {
 	private double t = 0;
 	public double z;
 	private double v = 0;
-	private final double g = 9.81;
+	private static final double g = 9.81;
 
 	// Constructor to set/store mass (kg) and drag coefficient (no units) of
 	// particle
