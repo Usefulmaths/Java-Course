@@ -14,7 +14,7 @@ public class TestThreeVector {
 
 		// Scalar Product between v1, v2 and v1, v3 using static method.
 		System.out.println("Scalar Product of v1, v2 (static): " + ThreeVector.scalarProduct(v1, v2));
-		System.out.println("Scalar Product of v1, v2 (static): " + ThreeVector.scalarProduct(v1, v3));
+		System.out.println("Scalar Product of v1, v3 (static): " + ThreeVector.scalarProduct(v1, v3));
 
 		// Scalar Product between v1, v2 and v1, v3 using non-static method.
 		System.out.println("Scalar Product of v1, v2 (non-static): " + v1.scalarProduct(v2));
