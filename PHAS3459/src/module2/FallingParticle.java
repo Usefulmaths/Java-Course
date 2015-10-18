@@ -2,12 +2,12 @@ package module2;
 
 public class FallingParticle {
 	// Field variables
+	private static final double g = 9.81;
+	private double z;
 	private final double m;
 	private final double d;
 	private double t = 0;
-	public double z;
 	private double v = 0;
-	public static final double g = 9.81;
 
 	// Constructor to set/store mass (kg) and drag coefficient (no units) of
 	// particle
