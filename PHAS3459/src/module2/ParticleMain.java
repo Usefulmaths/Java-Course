@@ -41,7 +41,7 @@ public class ParticleMain {
 		particle.drop(0.0001);
 		System.out.println(
 				"Time Step: " + 0.0001 + "\t " + "Time taken: " + particle.getT() + "\t Velocity: " + particle.getV());
-
+		
 		System.out.println(
 				"As we decrease the increment in time, we get a more accurate result for the time taken to fall to the ground and the velocity at the time of impact. This is due to z being closer to zero and not overshooting it as much");
 	}
