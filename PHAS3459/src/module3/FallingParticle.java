@@ -3,7 +3,9 @@ package module3;
 public class FallingParticle {
 	// Field variables
 	private static final double g = 9.81;
-	private double z, m, d;
+	private double z;
+	private double m;
+	private double d;
 
 	// Default to 0 since they're instance fields.
 	private double t;
