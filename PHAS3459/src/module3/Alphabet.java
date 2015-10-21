@@ -5,6 +5,9 @@ import java.lang.Character;
 import java.lang.Integer;
 
 public class Alphabet {
+	// No need to generate a new Random object each time the method is called.
+	private static Random rand = new Random();
+
 	public static void main(String[] args) throws Exception {
 		StringBuilder strBuilder = new StringBuilder();
 		int totalDigits = 0;
@@ -33,10 +36,9 @@ public class Alphabet {
 	}
 
 	private static char randomCharacter() {
-		Random rand = new Random();
-		int number = rand.nextInt(128);
-
-		return (char) number;
+		int numberFromRandom = rand.nextInt(128);
+		char numberToRandomCharacter = (char) numberFromRandom;
+		return numberToRandomCharacter;
 
 	}
 
