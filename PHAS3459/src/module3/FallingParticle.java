@@ -3,19 +3,19 @@ package module3;
 public class FallingParticle {
 	// Field variables
 	private static final double g = 9.81;
-	private double z;
-	private double m;
-	private double d;
-	private double t = 0;
-	private double v = 0;
+	private double z, m, d;
+
+	// Default to 0 since they're instance fields.
+	private double t;
+	private double v;
 
 	// Constructor to set/store mass (kg) and drag coefficient (no units) of
 	// particle
 	public FallingParticle(final double m, final double d) throws Exception {
 
 		try {
-			FallingParticle.isVariableLessThanOrEqualToZero(m);
-			FallingParticle.isVariableLessThanZero(d);
+			this.isVariableLessThanOrEqualToZero(m);
+			this.isVariableLessThanZero(d);
 
 			this.m = m;
 			this.d = d;
@@ -48,7 +48,7 @@ public class FallingParticle {
 	public void setZ(double z) throws Exception {
 
 		try {
-			FallingParticle.isVariableLessThanZero(z);
+			this.isVariableLessThanZero(z);
 			this.z = z;
 		} catch (Exception e) {
 			System.out.println(e);
@@ -70,7 +70,7 @@ public class FallingParticle {
 	public void doTimeStep(final double deltaT) throws Exception {
 
 		try {
-			FallingParticle.isVariableLessThanZero(deltaT);
+			this.isVariableLessThanZero(deltaT);
 
 			double a = d * v * v / m - g;
 
@@ -85,7 +85,7 @@ public class FallingParticle {
 	// Runs doTimeStep() until particles reaches a height of 0 (ground).
 	public void drop(final double deltaT) throws Exception {
 		try {
-			FallingParticle.isVariableLessThanZero(deltaT);
+			this.isVariableLessThanZero(deltaT);
 
 			while (this.z > 0) {
 				this.doTimeStep(deltaT);
@@ -96,13 +96,13 @@ public class FallingParticle {
 
 	}
 
-	public static void isVariableLessThanOrEqualToZero(double c) throws Exception {
+	public void isVariableLessThanOrEqualToZero(double c) throws Exception {
 		if (c <= 0) {
 			throw new Exception("Inappropriate choice of variable (must be greater than zero): " + c);
 		}
 	}
 
-	public static void isVariableLessThanZero(double c) throws Exception {
+	public void isVariableLessThanZero(double c) throws Exception {
 		if (c < 0) {
 			throw new Exception("Inappropriate choice of variable (must be atleast zero): " + c);
 		}
