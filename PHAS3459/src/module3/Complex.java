@@ -58,13 +58,11 @@ public class Complex {
 
 	// Creates new Complex object with modulus 1, same angle
 	public Complex normalised() throws Exception {
-		try {
-			Complex.isModulusZero(this);
-			return new Complex(this.real / this.modulus(), this.imag / this.modulus());
-		} catch (Exception e) {
-			System.out.println(e);
-			return null;
+		if (this.modulus() == 0.0) {
+			throw new Exception("Modulus is zero: " + this.modulus());
 		}
+		return new Complex(this.real / this.modulus(), this.imag / this.modulus());
+
 	}
 
 	// Tests components of two Complex classes and determines if they're equal
@@ -125,22 +123,14 @@ public class Complex {
 	// Complex division
 	public static Complex divide(final Complex c1, final Complex c2) throws Exception {
 		// Normalises so denominator is a real value
-		try {
-			Complex.isModulusZero(c2);
+	
+		if(c2.modulus() == 0){
+			throw new Exception("Denominator modulus is zero: " + c2.modulus());
+		}
 			return new Complex(Complex.multiply(c1, c2.conjugate()).real / (c2.real * c2.real + c2.imag * c2.imag),
 					Complex.multiply(c1, c2.conjugate()).imag / (c2.real * c2.real + c2.imag * c2.imag));
 
-		} catch (Exception e) {
-			System.out.println(e);
-			return null;
 		}
 	}
 
-	public static void isModulusZero(Complex complex) throws Exception {
-		if (complex.modulus() == 0) {
-			throw new Exception("The modulus of this complex number is zero! " + complex);
-		}
 
-	}
-
-}

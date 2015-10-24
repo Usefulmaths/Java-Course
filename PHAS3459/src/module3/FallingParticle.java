@@ -15,20 +15,15 @@ public class FallingParticle {
 	// particle
 	public FallingParticle(final double m, final double d) throws Exception {
 
-		try {
-			this.isVariableLessThanOrEqualToZero(m);
-			this.isVariableLessThanZero(d);
-
-			this.m = m;
-			this.d = d;
+		if (m <= 0) {
+			throw new Exception("Invalid mass. Must be greater than zero: m = " + m);
+		}
+		if (d < 0) {
+			throw new Exception("Invalid drag coefficient. Must be greater than or equal to zero: d = " + d);
 		}
 
-		catch (Exception e) {
-			System.out.println(e);
-			this.m = 0;
-			this.d = 0;
-
-		}
+		this.m = m;
+		this.d = d;
 	}
 
 	// Returns time (seconds)
@@ -49,12 +44,11 @@ public class FallingParticle {
 	// Sets height (metres)
 	public void setZ(double z) throws Exception {
 
-		try {
-			this.isVariableLessThanZero(z);
-			this.z = z;
-		} catch (Exception e) {
-			System.out.println(e);
+		if (z < 0) {
+			throw new Exception("Height above the ground must be greater than or equal to zero: z = " + this.z);
 		}
+		this.z = z;
+
 	}
 
 	// Returns velocity (metres per second)
@@ -71,43 +65,27 @@ public class FallingParticle {
 	// in deltaT time steps
 	public void doTimeStep(final double deltaT) throws Exception {
 
-		try {
-			this.isVariableLessThanZero(deltaT);
-
-			double a = d * v * v / m - g;
-
-			this.setV(this.getV() + a * deltaT);
-			this.setZ(this.getZ() + v * deltaT);
-			this.setT(this.getT() + deltaT);
-		} catch (Exception e) {
-			System.out.println(e);
+		if (deltaT <= 0) {
+			throw new Exception("Time increment must be greater than zero: deltaT = " + deltaT);
 		}
+
+		double a = d * v * v / m - g;
+
+		this.setV(this.getV() + a * deltaT);
+		this.setZ(this.getZ() + v * deltaT);
+		this.setT(this.getT() + deltaT);
+
 	}
 
 	// Runs doTimeStep() until particles reaches a height of 0 (ground).
 	public void drop(final double deltaT) throws Exception {
-		try {
-			this.isVariableLessThanZero(deltaT);
-
-			while (this.z > 0) {
-				this.doTimeStep(deltaT);
-			}
-		} catch (Exception e) {
-			System.out.println(e);
+		if (deltaT <= 0) {
+			throw new Exception("Time increment must be greater than zero: deltaT = " + deltaT);
+		}
+		while (this.z > 0) {
+			this.doTimeStep(deltaT);
 		}
 
-	}
-
-	public void isVariableLessThanOrEqualToZero(double c) throws Exception {
-		if (c <= 0) {
-			throw new Exception("Inappropriate choice of variable (must be greater than zero): " + c);
-		}
-	}
-
-	public void isVariableLessThanZero(double c) throws Exception {
-		if (c < 0) {
-			throw new Exception("Inappropriate choice of variable (must be atleast zero): " + c);
-		}
 	}
 
 }

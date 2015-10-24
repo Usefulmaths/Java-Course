@@ -37,19 +37,16 @@ public class ThreeVector {
 	// Returns a ThreeVector with a direction and magnitude of 1.
 	public ThreeVector unitVector() throws Exception {
 
-		try {
-			ThreeVector.isZeroVector(this);
-			// Normalising components
-			double normx = this.x / this.magnitude();
-			double normy = this.y / this.magnitude();
-			double normz = this.z / this.magnitude();
-
-			// Creating new ThreeVector with these normalised components
-			return new ThreeVector(normx, normy, normz);
-		} catch (Exception e) {
-			System.out.println(e);
-			return null;
+		if (this.x == 0 && this.y == 0 && this.z == 0) {
+			throw new Exception("There exists no unit vector for: " + this);
 		}
+		// Normalising components
+		double normx = this.x / this.magnitude();
+		double normy = this.y / this.magnitude();
+		double normz = this.z / this.magnitude();
+
+		// Creating new ThreeVector with these normalised components
+		return new ThreeVector(normx, normy, normz);
 
 	}
 
@@ -102,22 +99,11 @@ public class ThreeVector {
 	// (Non-static) in radians (Java Default)
 	public double angle(final ThreeVector threeVec) throws Exception {
 
-		try {
-			ThreeVector.isZeroVector(this);
-			ThreeVector.isZeroVector(threeVec);
-
-			return ThreeVector.angle(this, threeVec);
-		} catch (Exception e) {
-			System.out.println(e);
-			return 0;
+		if ((this.x == 0 && this.y == 0 && this.z == 0) || (threeVec.x == 0 && threeVec.y == 0 && threeVec.z == 0)) {
+			throw new Exception("One of the vectors have no size. Therefore, no angle exists.");
 		}
 
-	}
-
-	public static void isZeroVector(ThreeVector vector) throws Exception {
-		if (vector.x == 0 && vector.y == 0 && vector.z == 0) {
-			throw new Exception("Cannot perform this operation with a zero vector.");
-		}
+		return ThreeVector.angle(this, threeVec);
 	}
 
 }
