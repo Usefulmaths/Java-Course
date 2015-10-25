@@ -35,7 +35,7 @@ public class Alphabet {
 			}
 		}
 
-		System.out.println("StringBuilder result: " + strBuilder);
+		System.out.println("StringBuilder result: " + strBuilder + "\nNumber of characters in StringBuilder: " + strBuilder.length());
 		System.out.println("Total of Numbers: " + totalDigits);
 		System.out.println("Total Exceptions: " + totalExceptions);
 	}
