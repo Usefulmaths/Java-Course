@@ -10,14 +10,14 @@ public class TestExceptions {
 		try {
 			c2.normalised();
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("ERROR: " + e.getMessage());
 		}
 
 		// Division Exception
 		try {
 			Complex.divide(c1, c2);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("ERROR: " + e.getMessage());
 		}
 
 		// Testing ThreeVector Exceptions
@@ -28,14 +28,14 @@ public class TestExceptions {
 		try {
 			v2.unitVector();
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("ERROR: " + e.getMessage());
 		}
 
 		// Angle Exception
 		try {
 			v1.angle(v2);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("ERROR: " + e.getMessage());
 		}
 
 		// Testing FallingParticle Exceptions
@@ -44,14 +44,14 @@ public class TestExceptions {
 		try {
 			FallingParticle particle1 = new FallingParticle(-1, 2);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("ERROR: " + e.getMessage());
 		}
 
 		// Drag Coefficient Exception
 		try {
 			FallingParticle particle2 = new FallingParticle(4.2, -4.6);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("ERROR: " + e.getMessage());
 		}
 
 		// Height Exception
@@ -59,7 +59,7 @@ public class TestExceptions {
 		try {
 			particle3.setZ(-0.3);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("ERROR: " + e.getMessage());
 		}
 
 		// Time Increment Exception
@@ -67,13 +67,13 @@ public class TestExceptions {
 		try {
 			particle3.doTimeStep(-0.1);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("ERROR: " + e.getMessage());
 		}
 
 		try {
 			particle3.drop(-0.1);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("ERROR: " + e.getMessage());
 		}
 
 	}
