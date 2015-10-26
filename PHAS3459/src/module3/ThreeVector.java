@@ -1,5 +1,5 @@
 package module3;
-
+ 
 public class ThreeVector {
 	private final double x;
 	private final double y;
