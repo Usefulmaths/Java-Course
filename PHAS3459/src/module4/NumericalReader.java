@@ -15,42 +15,66 @@ import java.util.Collections;
 import java.util.Scanner;
 
 public class NumericalReader {
+
 	private static double minValue;
 	private static double maxValue;
 	private static int nValues;
 	private static double sumOfValues;
 	private static ArrayList<String> keepTrackOfNumbers = new ArrayList();
+	private static String directory;
 	private File file;
 	private FileWriter fw;
 
 	public static void main(String[] args) {
-		numbers1();
-		numbers2();
+
+		// Creating two NumericalReader objects, one for each text file.
+		NumericalReader nr1 = new NumericalReader();
+		NumericalReader nr2 = new NumericalReader();
+
+		// Getting directory from user, if none specified redirect to home
+		// directory.
+		try {
+			directory = NumericalReader.getOutputDirectory();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			directory = System.getProperty("user.home");
+		}
+
+		// Runs code for the first text file.
+		NumericalReader.runProgram(nr1, "http://www.hep.ucl.ac.uk/undergrad/3459/data/module4/module4_data1.txt",
+				"numbers1.txt");
+
+		// Run code for the second text file.
+		NumericalReader.runProgram(nr2, "http://www.hep.ucl.ac.uk/undergrad/3459/data/module4/module4_data2.txt",
+				"numbers2.txt");
 
 	}
 
-	private static void numbers1() {
-		NumericalReader nr = new NumericalReader();
-		BufferedReader brNumbers1 = null;
+	private static void runProgram(NumericalReader nr, String URL, String fileName) {
 
+		BufferedReader brReadInNumbers = null;
+
+		// Reads information from specified URL.
 		try {
-			brNumbers1 = brFromURL("http://www.hep.ucl.ac.uk/undergrad/3459/data/module4/module4_data1.txt");
+			brReadInNumbers = NumericalReader.brFromURL(URL);
 		} catch (IOException e) {
 			System.out.println("Error reading in from BufferedReader: " + e);
 		}
 
-		String dir;
-		dir = getOutputDirectory();
-
+		// Resets variables to default and creates file in user-specified
+		// directory.
+		String saveFile = directory + File.separator + fileName;
 		try {
-			nr.analysisStart(dir + File.separator + "numbers1.txt");
+			nr.analysisStart(saveFile);
 		} catch (IOException e) {
 			System.out.println("Error creating number file: " + e);
 		}
 
+		// Performs necessary analysis on test files, writes data to file in
+		// directory.
 		String line;
 		try {
-			while ((line = brNumbers1.readLine()) != null) {
+			while ((line = brReadInNumbers.readLine()) != null) {
 				try {
 					nr.analyseData(line);
 				} catch (IOException e) {
@@ -60,62 +84,31 @@ public class NumericalReader {
 		} catch (IOException e) {
 			System.out.println("Error reading line via BufferedReader: " + e);
 		}
-		updateVariblesFromArray(keepTrackOfNumbers);
 
+		// Finds min, max, number of variables, and their sum.
+		nr.updateVariblesFromArray(keepTrackOfNumbers);
+
+		// Ends analysis, prints out results.
 		nr.analysisEnd();
 	}
 
-	private static void numbers2() {
-		NumericalReader nr = new NumericalReader();
-		BufferedReader brNumbers1 = null;
-
-		try {
-			brNumbers1 = brFromURL("http://www.hep.ucl.ac.uk/undergrad/3459/data/module4/module4_data2.txt");
-		} catch (IOException e) {
-			System.out.println("Error reading in from BufferedReader: " + e);
-		}
-
-		String dir;
-		dir = getOutputDirectory();
-
-		try {
-			nr.analysisStart(dir + File.separator + "numbers2.txt");
-		} catch (IOException e) {
-			System.out.println("Error creating number file: " + e);
-		}
-
-		String line;
-		try {
-			while ((line = brNumbers1.readLine()) != null) {
-				try {
-					nr.analyseData(line);
-				} catch (IOException e) {
-					System.out.println("Error writing to number file: " + e);
-				}
-			}
-		} catch (IOException e) {
-			System.out.println("Error reading line via BufferedReader: " + e);
-		}
-		updateVariblesFromArray(keepTrackOfNumbers);
-
-		nr.analysisEnd();
-	}
-
-	private static String getOutputDirectory() {
+	private static String getOutputDirectory() throws Exception {
 
 		System.out.print("Enter directory location: ");
 		Scanner scanner = new Scanner(System.in);
 		String location = scanner.nextLine();
-		if (location != "this") {
-			return location;
+
+		if (location.equals("")) {
+			throw new Exception(
+					"Invalid directory name. Redirecting to home directory: " + System.getProperty("user.home"));
 		} else {
-			location = System.getProperty("user.home");
 			return location;
 		}
 
 	}
 
 	private static BufferedReader brFromURL(String urlName) throws IOException {
+
 		URL u = new URL(urlName);
 		InputStream in = u.openStream();
 		InputStreamReader isr = new InputStreamReader(in);
@@ -126,6 +119,7 @@ public class NumericalReader {
 	}
 
 	private void analysisStart(String dataFile) throws IOException {
+
 		file = new File(dataFile);
 		fw = new FileWriter(file);
 
@@ -138,6 +132,7 @@ public class NumericalReader {
 	}
 
 	private void analyseData(String line) throws IOException {
+
 		if (!line.matches("([a-zA-Z].*)|\\W")) {
 
 			Scanner scanner = new Scanner(line);
@@ -158,7 +153,8 @@ public class NumericalReader {
 
 	}
 
-	private static void updateVariblesFromArray(ArrayList list) {
+	private void updateVariblesFromArray(ArrayList list) {
+
 		ArrayList<String> listString = list;
 		ArrayList<Double> listDouble = new ArrayList();
 
@@ -175,6 +171,7 @@ public class NumericalReader {
 	}
 
 	private static double sumOfArray(ArrayList list) {
+
 		ArrayList<Double> listDouble = list;
 		double sum = 0;
 		for (double i : listDouble) {
@@ -185,12 +182,11 @@ public class NumericalReader {
 	}
 
 	private void analysisEnd() {
+
 		System.out.println("Minimum value: " + minValue);
 		System.out.println("Maximum value: " + maxValue);
 		System.out.println("Average value: " + sumOfValues / nValues);
-		System.out.println("Number of values read: " + nValues);
-
-		System.out.println(System.getProperty("user.home"));
+		System.out.println("Number of values read: " + nValues + "\n");
 	}
 
 }
