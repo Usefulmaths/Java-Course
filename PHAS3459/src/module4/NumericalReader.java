@@ -7,8 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.lang.reflect.Array;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,9 +17,9 @@ public class NumericalReader {
 
 	private static double minValue;
 	private static double maxValue;
-	private static int nValues;
 	private static double sumOfValues;
-	private static ArrayList<String> keepTrackOfNumbers = new ArrayList();
+	private static int nValues;
+	private static ArrayList<String> keepTrackOfNumbers = new ArrayList<String>();
 	private static String directory;
 	private File file;
 	private FileWriter fw;
@@ -35,6 +34,9 @@ public class NumericalReader {
 		// directory.
 		try {
 			directory = NumericalReader.getOutputDirectory();
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+			directory = System.getProperty("user.home");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			directory = System.getProperty("user.home");
@@ -57,6 +59,8 @@ public class NumericalReader {
 		// Reads information from specified URL.
 		try {
 			brReadInNumbers = NumericalReader.brFromURL(URL);
+		} catch (MalformedURLException e) {
+			System.out.println("Error while parsing in URL: " + e);
 		} catch (IOException e) {
 			System.out.println("Error reading in from BufferedReader: " + e);
 		}
@@ -68,6 +72,7 @@ public class NumericalReader {
 			nr.analysisStart(saveFile);
 		} catch (IOException e) {
 			System.out.println("Error creating number file: " + e);
+
 		}
 
 		// Performs necessary analysis on test files, writes data to file in
@@ -92,7 +97,7 @@ public class NumericalReader {
 		nr.analysisEnd();
 	}
 
-	private static String getOutputDirectory() throws Exception {
+	private static String getOutputDirectory() throws Exception, IOException {
 
 		System.out.print("Enter directory location: ");
 		Scanner scanner = new Scanner(System.in);
@@ -107,7 +112,7 @@ public class NumericalReader {
 
 	}
 
-	private static BufferedReader brFromURL(String urlName) throws IOException {
+	private static BufferedReader brFromURL(String urlName) throws IOException, MalformedURLException {
 
 		URL u = new URL(urlName);
 		InputStream in = u.openStream();
@@ -153,10 +158,10 @@ public class NumericalReader {
 
 	}
 
-	private void updateVariblesFromArray(ArrayList list) {
+	private void updateVariblesFromArray(ArrayList<String> list) {
 
 		ArrayList<String> listString = list;
-		ArrayList<Double> listDouble = new ArrayList();
+		ArrayList<Double> listDouble = new ArrayList<Double>();
 
 		for (String i : listString) {
 			double stringToDouble = Double.parseDouble(i);
@@ -170,7 +175,7 @@ public class NumericalReader {
 
 	}
 
-	private static double sumOfArray(ArrayList list) {
+	private static double sumOfArray(ArrayList<Double> list) {
 
 		ArrayList<Double> listDouble = list;
 		double sum = 0;
