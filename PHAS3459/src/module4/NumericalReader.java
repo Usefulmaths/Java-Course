@@ -9,38 +9,26 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Scanner;
 
 public class NumericalReader {
-
 	private static double minValue;
 	private static double maxValue;
 	private static double sumOfValues;
 	private static int nValues;
-	private static ArrayList<String> keepTrackOfNumbers = new ArrayList<String>();
+
 	private static String directory;
-	private File file;
 	private FileWriter fw;
 
 	public static void main(String[] args) {
 
 		// Creating two NumericalReader objects, one for each text file.
-		NumericalReader nr1 = new NumericalReader();
-		NumericalReader nr2 = new NumericalReader();
+		final NumericalReader nr1 = new NumericalReader();
+		final NumericalReader nr2 = new NumericalReader();
 
 		// Getting directory from user, if none specified redirect to home
 		// directory.
-		try {
-			directory = NumericalReader.getOutputDirectory();
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
-			directory = System.getProperty("user.home");
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			directory = System.getProperty("user.home");
-		}
+		directory = NumericalReader.getOutputDirectory();
 
 		// Runs code for the first text file.
 		NumericalReader.runProgram(nr1, "http://www.hep.ucl.ac.uk/undergrad/3459/data/module4/module4_data1.txt",
@@ -52,13 +40,12 @@ public class NumericalReader {
 
 	}
 
-	private static void runProgram(NumericalReader nr, String URL, String fileName) {
-
+	private static void runProgram(final NumericalReader nr, final String url, final String fileName) {
 		BufferedReader brReadInNumbers = null;
 
 		// Reads information from specified URL.
 		try {
-			brReadInNumbers = NumericalReader.brFromURL(URL);
+			brReadInNumbers = NumericalReader.brFromURL(url);
 		} catch (MalformedURLException e) {
 			System.out.println("Error while parsing in URL: " + e);
 		} catch (IOException e) {
@@ -86,108 +73,78 @@ public class NumericalReader {
 					System.out.println("Error writing to number file: " + e);
 				}
 			}
+			brReadInNumbers.close();
 		} catch (IOException e) {
 			System.out.println("Error reading line via BufferedReader: " + e);
 		}
 
-		// Finds min, max, number of variables, and their sum.
-		nr.updateVariblesFromArray(keepTrackOfNumbers);
-
-		// Ends analysis, prints out results.
-		nr.analysisEnd();
+		// Ends analysis, prints out results, and closes FileWriter.
+		try {
+			nr.analysisEnd();
+		} catch (IOException e) {
+			System.out.println("Error closing FileWriter: " + e.getMessage());
+		}
 	}
 
-	private static String getOutputDirectory() throws Exception, IOException {
-
+	private static String getOutputDirectory() {
 		System.out.print("Enter directory location: ");
-		Scanner scanner = new Scanner(System.in);
-		String location = scanner.nextLine();
+		final Scanner in = new Scanner(System.in);
+
+		String location = in.nextLine();
 
 		if (location.equals("")) {
-			throw new Exception(
-					"Invalid directory name. Redirecting to home directory: " + System.getProperty("user.home"));
+			return System.getProperty("user.home");
 		} else {
 			return location;
 		}
 
 	}
 
-	private static BufferedReader brFromURL(String urlName) throws IOException, MalformedURLException {
-
-		URL u = new URL(urlName);
-		InputStream in = u.openStream();
-		InputStreamReader isr = new InputStreamReader(in);
-		BufferedReader br = new BufferedReader(isr);
-
-		return br;
-
+	private static BufferedReader brFromURL(final String urlName) throws MalformedURLException, IOException {
+		final URL url = new URL(urlName);
+		final InputStream stream = url.openStream();
+		return new BufferedReader(new InputStreamReader(stream));
 	}
 
 	private void analysisStart(String dataFile) throws IOException {
-
-		file = new File(dataFile);
+		final File file = new File(dataFile);
 		fw = new FileWriter(file);
 
-		minValue = 0;
-		maxValue = 0;
+		minValue = Double.POSITIVE_INFINITY;
+		maxValue = Double.NEGATIVE_INFINITY;
 		nValues = 0;
 		sumOfValues = 0;
-
-		keepTrackOfNumbers.removeAll(keepTrackOfNumbers);
 	}
 
 	private void analyseData(String line) throws IOException {
+		if (line.isEmpty() || Character.isLetter(line.charAt(0))) {
+			return;
+		}
 
-		if (!line.matches("([a-zA-Z].*)|\\W")) {
+		final Scanner in = new Scanner(line);
+		while (in.hasNextDouble()) {
+			final double number = in.nextDouble();
+			fw.write(number + "\n");
+			System.out.println(number);
 
-			Scanner scanner = new Scanner(line);
-			BufferedWriter bw = new BufferedWriter(fw);
-
-			while (scanner.hasNext()) {
-				String str = scanner.next();
-
-				keepTrackOfNumbers.add(str);
-
-				System.out.println(str);
-
-				bw.write(str + "\n");
-
+			// Tests whether number is less than minValue, if so assigns.
+			if (number < minValue) {
+				minValue = number;
 			}
-			bw.flush();
+
+			// Tests whether number is more than maxValue, if so assigns.
+			if (number > maxValue) {
+				maxValue = number;
+			}
+
+			++nValues;
+			sumOfValues += number;
 		}
 
 	}
 
-	private void updateVariblesFromArray(ArrayList<String> list) {
-
-		ArrayList<String> listString = list;
-		ArrayList<Double> listDouble = new ArrayList<Double>();
-
-		for (String i : listString) {
-			double stringToDouble = Double.parseDouble(i);
-			listDouble.add(stringToDouble);
-		}
-
-		minValue = Collections.min(listDouble);
-		maxValue = Collections.max(listDouble);
-		nValues = listDouble.size();
-		sumOfValues = sumOfArray(listDouble);
-
-	}
-
-	private static double sumOfArray(ArrayList<Double> list) {
-
-		ArrayList<Double> listDouble = list;
-		double sum = 0;
-		for (double i : listDouble) {
-			sum += i;
-		}
-
-		return sum;
-	}
-
-	private void analysisEnd() {
-
+	private void analysisEnd() throws IOException {
+		fw.close();
 		System.out.println("Minimum value: " + minValue);
 		System.out.println("Maximum value: " + maxValue);
 		System.out.println("Average value: " + sumOfValues / nValues);
