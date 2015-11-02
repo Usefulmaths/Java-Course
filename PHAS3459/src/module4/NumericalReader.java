@@ -16,8 +16,6 @@ public class NumericalReader {
 	private static double maxValue;
 	private static double sumOfValues;
 	private static int nValues;
-
-	private static String saveDir;
 	private FileWriter fw;
 
 	public static void main(String[] args) {
@@ -28,19 +26,20 @@ public class NumericalReader {
 
 		// Getting directory from user, if none specified redirect to home
 		// directory.
-		saveDir = getOutputDirectory();
+		final String saveDir = getOutputDirectory();
 
 		// Runs code for the first text file.
-		NumericalReader.runProgram(nr1, "http://www.hep.ucl.ac.uk/undergrad/3459/data/module4/module4_data1.txt",
-				"numbers1.txt");
+		NumericalReader.runProgram(nr1, saveDir,
+				"http://www.hep.ucl.ac.uk/undergrad/3459/data/module4/module4_data1.txt", "numbers1.txt");
 
 		// Run code for the second text file.
-		NumericalReader.runProgram(nr2, "http://www.hep.ucl.ac.uk/undergrad/3459/data/module4/module4_data2.txt",
-				"numbers2.txt");
+		NumericalReader.runProgram(nr2, saveDir,
+				"http://www.hep.ucl.ac.uk/undergrad/3459/data/module4/module4_data2.txt", "numbers2.txt");
 
 	}
 
-	private static void runProgram(final NumericalReader nr, final String url, final String fileName) {
+	private static void runProgram(final NumericalReader nr, final String directory, final String url,
+			final String fileName) {
 		BufferedReader brReadInNumbers = null;
 
 		// Reads information from specified URL.
@@ -54,7 +53,7 @@ public class NumericalReader {
 
 		// Resets variables to default and creates file in user-specified
 		// directory.
-		String saveFile = saveDir + File.separator + fileName;
+		String saveFile = directory + File.separator + fileName;
 		try {
 			nr.analysisStart(saveFile);
 		} catch (IOException e) {
