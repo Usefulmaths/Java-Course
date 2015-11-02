@@ -17,7 +17,7 @@ public class NumericalReader {
 	private static double sumOfValues;
 	private static int nValues;
 
-	private static String directory;
+	private static String saveDir;
 	private FileWriter fw;
 
 	public static void main(String[] args) {
@@ -28,7 +28,7 @@ public class NumericalReader {
 
 		// Getting directory from user, if none specified redirect to home
 		// directory.
-		directory = NumericalReader.getOutputDirectory();
+		saveDir = getOutputDirectory();
 
 		// Runs code for the first text file.
 		NumericalReader.runProgram(nr1, "http://www.hep.ucl.ac.uk/undergrad/3459/data/module4/module4_data1.txt",
@@ -54,7 +54,7 @@ public class NumericalReader {
 
 		// Resets variables to default and creates file in user-specified
 		// directory.
-		String saveFile = directory + File.separator + fileName;
+		String saveFile = saveDir + File.separator + fileName;
 		try {
 			nr.analysisStart(saveFile);
 		} catch (IOException e) {
