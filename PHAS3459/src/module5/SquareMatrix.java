@@ -4,13 +4,17 @@ import java.util.Arrays;
 
 public class SquareMatrix {
 
-	final double[][] elements;
+	private final double[][] elements;
 
 	public SquareMatrix(final double[][] elements) throws Exception {
 		if (Math.pow(numberRows(elements), 2) != numberElements(elements)) {
 			throw new Exception("Invalid matrix, must be a square matrix.");
 		}
 		this.elements = elements;
+	}
+
+	public int dimension() {
+		return this.elements.length;
 	}
 
 	private static int numberRows(final double[][] elements) {
@@ -31,8 +35,8 @@ public class SquareMatrix {
 		return nEle;
 	}
 
-	public static SquareMatrix unitMatrix(int size) throws Exception {
-		double[][] matrixDouble = new double[size][size];
+	public static SquareMatrix unitMatrix(final int size) throws Exception {
+		final double[][] matrixDouble = new double[size][size];
 
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
@@ -51,11 +55,11 @@ public class SquareMatrix {
 			throw new Exception("Arrays are not the same size.");
 		}
 
-		double[][] sm1Double = sm1.elements;
-		double[][] sm2Double = sm2.elements;
+		final double[][] sm1Double = sm1.elements;
+		final double[][] sm2Double = sm2.elements;
 		final int size = sm1Double.length;
 
-		double[][] sm1AddSm2 = new double[size][size];
+		final double[][] sm1AddSm2 = new double[size][size];
 
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
@@ -72,11 +76,11 @@ public class SquareMatrix {
 			throw new Exception("Arrays are not the same size.");
 		}
 
-		double[][] sm1Double = sm1.elements;
-		double[][] sm2Double = sm2.elements;
+		final double[][] sm1Double = sm1.elements;
+		final double[][] sm2Double = sm2.elements;
 		final int size = sm1Double.length;
 
-		double[][] sm1SubtractSm2 = new double[size][size];
+		final double[][] sm1SubtractSm2 = new double[size][size];
 
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
@@ -88,11 +92,11 @@ public class SquareMatrix {
 	}
 
 	public static SquareMatrix multiply(SquareMatrix sm1, SquareMatrix sm2) throws Exception {
-		double[][] sm1Double = sm1.elements;
-		double[][] sm2Double = sm2.elements;
+		final double[][] sm1Double = sm1.elements;
+		final double[][] sm2Double = sm2.elements;
 		final int size = sm1Double.length;
 
-		double[][] sm1MultiplySm2 = new double[size][size];
+		final double[][] sm1MultiplySm2 = new double[size][size];
 
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
@@ -106,15 +110,15 @@ public class SquareMatrix {
 		return new SquareMatrix(sm1MultiplySm2);
 	}
 
-	public SquareMatrix add(SquareMatrix sm) throws Exception {
+	public SquareMatrix add(final SquareMatrix sm) throws Exception {
 		return SquareMatrix.add(this, sm);
 	}
 
-	public SquareMatrix subtract(SquareMatrix sm) throws Exception {
+	public SquareMatrix subtract(final SquareMatrix sm) throws Exception {
 		return SquareMatrix.subtract(this, sm);
 	}
 
-	public SquareMatrix multiply(SquareMatrix sm) throws Exception {
+	public SquareMatrix multiply(final SquareMatrix sm) throws Exception {
 		return SquareMatrix.multiply(this, sm);
 	}
 

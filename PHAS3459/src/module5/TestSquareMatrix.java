@@ -9,10 +9,10 @@ public class TestSquareMatrix {
 
 	public static void main(String[] args) {
 
-		double[][] A = { { 1, 0, -2 }, { 0, 3, 0 }, { 2, 0, 1 } };
-		double[][] B = { { 0, 0, 1 }, { 0, 1, 0 }, { -1, 0, 1 } };
-		double[][] C = { { 4, 3 }, { 3, 2 } };
-		double[][] D = { { -2, 3 }, { 3, -4 } };
+		final double[][] A = { { 1, 0, -2 }, { 0, 3, 0 }, { 2, 0, 1 } };
+		final double[][] B = { { 0, 0, 1 }, { 0, 1, 0 }, { -1, 0, 1 } };
+		final double[][] C = { { 4, 3 }, { 3, 2 } };
+		final double[][] D = { { -2, 3 }, { 3, -4 } };
 
 		try {
 			matrixA = new SquareMatrix(A);
@@ -31,8 +31,8 @@ public class TestSquareMatrix {
 
 	private static void sums() {
 		try {
-			SquareMatrix matrixAPlusB = matrixA.add(matrixB);
-			SquareMatrix matrixAMinusB = matrixA.subtract(matrixB);
+			final SquareMatrix matrixAPlusB = matrixA.add(matrixB);
+			final SquareMatrix matrixAMinusB = matrixA.subtract(matrixB);
 
 			System.out.println("A + B = " + matrixAPlusB + "\n");
 			System.out.println("A - B = " + matrixAMinusB + "\n");
@@ -44,13 +44,13 @@ public class TestSquareMatrix {
 
 	private static void productsABAndCommutator() {
 		try {
-			SquareMatrix matrixAMultiplyB = matrixA.multiply(matrixB);
-			SquareMatrix matrixBMultiplyA = matrixB.multiply(matrixA);
+			final SquareMatrix matrixAMultiplyB = matrixA.multiply(matrixB);
+			final SquareMatrix matrixBMultiplyA = matrixB.multiply(matrixA);
 
 			System.out.println("A * B = " + matrixAMultiplyB + "\n");
 			System.out.println("B * A = " + matrixBMultiplyA + "\n");
 
-			SquareMatrix commutator = matrixAMultiplyB.subtract(matrixBMultiplyA);
+			final SquareMatrix commutator = matrixAMultiplyB.subtract(matrixBMultiplyA);
 
 			System.out.println("[A, B] = AB - BA = " + commutator + "\n");
 		} catch (Exception e) {
@@ -60,9 +60,9 @@ public class TestSquareMatrix {
 
 	private static void productsCDAndCheck() {
 		try {
-			SquareMatrix matrixCMultiplyD = matrixC.multiply(matrixD);
+			final SquareMatrix matrixCMultiplyD = matrixC.multiply(matrixD);
 
-			if (matrixCMultiplyD.equals(SquareMatrix.unitMatrix(matrixCMultiplyD.elements.length))) {
+			if (matrixCMultiplyD.equals(SquareMatrix.unitMatrix(matrixCMultiplyD.dimension()))) {
 				System.out.println("C * D is equal to the identity matrix: " + matrixCMultiplyD);
 			} else {
 				System.out.println("C * D is not equal to the identity matrix: " + matrixCMultiplyD);
