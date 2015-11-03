@@ -7,32 +7,30 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class DataAnalysis {
 
 	public static void main(String[] args) {
+		ArrayList<DataPoint> dataPoints = new ArrayList<DataPoint>();
 		try {
-			ArrayList<DataPoint> dataPoints = dataFromURL(
-					"http://www.hep.ucl.ac.uk/undergrad/3459/data/module5/module5-xy.txt");
-
-			Theory theoryXSquared = new Theory(2);
-			Theory theoryXFourth = new Theory(4);
-
-			double modelXSquare = goodnessOfFit(theoryXSquared, dataPoints);
-			double modelXFourth = goodnessOfFit(theoryXFourth, dataPoints);
-
-			if (modelXSquare > modelXFourth) {
-				System.out.println(
-						"x^4 is a better fit than x^2 \n \t x^2: " + modelXSquare + "\n \t x^4: " + modelXFourth);
-			} else {
-				System.out.println(
-						"x^2 is a better fit than x^4 \n\n \t x^2: " + modelXSquare + "\n \t x^4: " + modelXFourth);
-			}
-
+			dataPoints = dataFromURL("http://www.hep.ucl.ac.uk/undergrad/3459/data/module5/module5-xy.txt");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+
+		Theory theoryXSquared = new Theory(2);
+		Theory theoryXFourth = new Theory(4);
+
+		double modelXSquare = goodnessOfFit(theoryXSquared, dataPoints);
+		double modelXFourth = goodnessOfFit(theoryXFourth, dataPoints);
+
+		System.out.println("Goodness of fit for quadratic model: " + modelXSquare);
+		System.out.println("Goodness of fit for quartic model: " + modelXFourth);
+
+		String betterModel = (modelXSquare < modelXFourth) ? "quadratic" : "quartic";
+
+		System.out.println("The theory that fits the best is the " + betterModel + " model.");
+
 	}
 
 	private static ArrayList<DataPoint> dataFromURL(final String urlName) throws MalformedURLException, IOException {
@@ -58,7 +56,6 @@ public class DataAnalysis {
 	}
 
 	private static double goodnessOfFit(final Theory theory, final ArrayList<DataPoint> dataPoints) {
-
 		double chiSquared = 0;
 
 		for (DataPoint dp : dataPoints) {
