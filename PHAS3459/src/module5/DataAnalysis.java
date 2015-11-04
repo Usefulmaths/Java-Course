@@ -18,11 +18,11 @@ public class DataAnalysis {
 			System.out.println(e.getMessage());
 		}
 
-		Theory theoryXSquared = new Theory(2);
-		Theory theoryXFourth = new Theory(4);
+		final Theory theoryXSquared = new Theory(2);
+		final Theory theoryXFourth = new Theory(4);
 
-		double modelXSquare = goodnessOfFit(theoryXSquared, dataPoints);
-		double modelXFourth = goodnessOfFit(theoryXFourth, dataPoints);
+		final double modelXSquare = goodnessOfFit(theoryXSquared, dataPoints);
+		final double modelXFourth = goodnessOfFit(theoryXFourth, dataPoints);
 
 		System.out.println("Goodness of fit for quadratic model: " + modelXSquare);
 		System.out.println("Goodness of fit for quartic model: " + modelXFourth);
@@ -38,7 +38,7 @@ public class DataAnalysis {
 		final InputStream stream = url.openStream();
 		final BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
 
-		ArrayList<DataPoint> dataPoints = new ArrayList<DataPoint>();
+		final ArrayList<DataPoint> dataPoints = new ArrayList<DataPoint>();
 
 		String line;
 		while ((line = reader.readLine()) != null) {

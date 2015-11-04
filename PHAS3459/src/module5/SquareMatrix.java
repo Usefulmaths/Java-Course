@@ -28,7 +28,7 @@ public class SquareMatrix {
 	private static int numberElements(final double[][] elements) {
 		int nEle = 0;
 		for (double[] rows : elements) {
-			for (double cols : rows) {
+			for (double ele : rows) {
 				nEle++;
 			}
 		}
