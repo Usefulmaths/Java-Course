@@ -48,7 +48,7 @@ public class SquareMatrix {
 		return new SquareMatrix(matrixDouble);
 	}
 
-	public static SquareMatrix add(SquareMatrix sm1, SquareMatrix sm2) throws Exception {
+	public static SquareMatrix add(final SquareMatrix sm1, final SquareMatrix sm2) throws Exception {
 		if (SquareMatrix.numberRows(sm1.elements) != SquareMatrix.numberRows(sm2.elements)
 				&& SquareMatrix.numberElements(sm1.elements) != SquareMatrix.numberElements(sm2.elements)) {
 			throw new Exception("Arrays are not the same size.");
@@ -69,7 +69,7 @@ public class SquareMatrix {
 		return new SquareMatrix(sm1AddSm2);
 	}
 
-	public static SquareMatrix subtract(SquareMatrix sm1, SquareMatrix sm2) throws Exception {
+	public static SquareMatrix subtract(final SquareMatrix sm1, final SquareMatrix sm2) throws Exception {
 		if (SquareMatrix.numberRows(sm1.elements) != SquareMatrix.numberRows(sm2.elements)
 				&& SquareMatrix.numberElements(sm1.elements) != SquareMatrix.numberElements(sm2.elements)) {
 			throw new Exception("Arrays are not the same size.");
@@ -90,7 +90,7 @@ public class SquareMatrix {
 		return new SquareMatrix(sm1SubtractSm2);
 	}
 
-	public static SquareMatrix multiply(SquareMatrix sm1, SquareMatrix sm2) throws Exception {
+	public static SquareMatrix multiply(final SquareMatrix sm1, final SquareMatrix sm2) throws Exception {
 		final double[][] sm1Double = sm1.elements;
 		final double[][] sm2Double = sm2.elements;
 		final int size = sm1Double.length;
