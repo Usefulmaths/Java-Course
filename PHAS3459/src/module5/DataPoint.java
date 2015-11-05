@@ -1,12 +1,11 @@
 package module5;
 
 public class DataPoint {
+	private final double x;
+	private final double y;
+	private final double ey;
 
-	private double x;
-	private double y;
-	private double ey;
-
-	public DataPoint(double x, double y, double ey) {
+	public DataPoint(final double x, final double y, final double ey) {
 		this.x = x;
 		this.y = y;
 		this.ey = ey;
@@ -28,7 +27,4 @@ public class DataPoint {
 	public String toString() {
 		return "DataPoint [x=" + x + ", y=" + y + ", ey=" + ey + "]";
 	}
-	
-	
-
 }

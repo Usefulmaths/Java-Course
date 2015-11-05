@@ -1,15 +1,13 @@
 package module5;
 
 public class Theory {
+	private final int n;
 
-	private int n;
-
-	public Theory(int n) {
+	public Theory(final int n) {
 		this.n = n;
 	}
 
-	public double y(double x) {
+	public double y(final double x) {
 		return Math.pow(x, this.n);
 	}
-
 }
