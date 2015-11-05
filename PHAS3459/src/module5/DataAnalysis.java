@@ -30,7 +30,6 @@ public class DataAnalysis {
 		String betterModel = (modelXSquare < modelXFourth) ? "quadratic" : "quartic";
 
 		System.out.println("The theory that fits the best is the " + betterModel + " model.");
-
 	}
 
 	private static ArrayList<DataPoint> dataFromURL(final String urlName) throws MalformedURLException, IOException {

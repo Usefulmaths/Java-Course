@@ -1,14 +1,12 @@
 package module5;
 
 public class TestSquareMatrix {
-
 	private static SquareMatrix matrixA;
 	private static SquareMatrix matrixB;
 	private static SquareMatrix matrixC;
 	private static SquareMatrix matrixD;
 
 	public static void main(String[] args) {
-
 		final double[][] A = { { 1, 0, -2 }, { 0, 3, 0 }, { 2, 0, 1 } };
 		final double[][] B = { { 0, 0, 1 }, { 0, 1, 0 }, { -1, 0, 1 } };
 		final double[][] C = { { 4, 3 }, { 3, 2 } };
@@ -71,5 +69,4 @@ public class TestSquareMatrix {
 			System.out.print(e.getMessage());
 		}
 	}
-
 }

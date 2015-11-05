@@ -3,7 +3,6 @@ package module5;
 import java.util.Arrays;
 
 public class SquareMatrix {
-
 	private final double[][] elements;
 
 	public SquareMatrix(final double[][] elements) throws Exception {
@@ -156,5 +155,4 @@ public class SquareMatrix {
 			return false;
 		return true;
 	}
-
 }
