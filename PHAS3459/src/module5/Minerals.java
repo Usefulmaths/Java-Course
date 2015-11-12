@@ -7,18 +7,23 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class Minerals {
+	// Instantiating two HashMap objects to store mass and locations.
 	private final HashMap<Integer, Double> hashMapMass = new HashMap<Integer, Double>();
 	private final HashMap<Integer, String> hashMapLocation = new HashMap<Integer, String>();
 
 	public static void main(String[] args) {
+		// Instantiating a Minerals object.
 		final Minerals minerals = new Minerals();
 
+		// Reading in data from URLs and storing in appropriate HashMaps.
 		minerals.importMass("http://www.hep.ucl.ac.uk/undergrad/3459/data/module5/module5-samples.txt");
 		minerals.importLocation("http://www.hep.ucl.ac.uk/undergrad/3459/data/module5/module5-locations.txt");
 
+		// Finds the maximum and minimum mass and retrieves its key.
 		final int minimumMassCode = minerals.minimumMassCode();
 		final int maximumMassCode = minerals.maximumMassCode();
 
+		// Using the found keys, displays information on the mineral.
 		minerals.informationAboutCode(minimumMassCode);
 		minerals.informationAboutCode(maximumMassCode);
 	}
