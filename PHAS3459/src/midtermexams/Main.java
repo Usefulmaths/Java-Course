@@ -107,7 +107,7 @@ public class Main {
 			System.out
 					.println("Earliest year of discovery by " + method + ": " + earliestYearMethod(exoplanets, method));
 			System.out.println(
-					"Lightest planet discovered by: " + method + ": " + lightestMassByDiscovery(exoplanets, method) + "\n");
+					"Lightest planet discovered by " + method + ": " + lightestMassByDiscovery(exoplanets, method) + "\n");
 		}
 
 	}
