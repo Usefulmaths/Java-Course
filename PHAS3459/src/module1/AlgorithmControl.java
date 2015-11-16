@@ -6,7 +6,7 @@ public class AlgorithmControl {
 		ac.loop();
 		ac.decrement();
 		ac.increment();
-
+		
 		final int steps1 = ac.timer(5000, 200);
 		System.out.println("Total number of steps: " + steps1);
 
@@ -19,7 +19,6 @@ public class AlgorithmControl {
 		System.out.println(
 				"As you increase the number of loops until the steps are printed, the total amount of steps increases. "
 						+ "This is because printing to the console is a very slow operation.");
-
 	}
 
 	private void loop() {

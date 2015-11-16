@@ -6,8 +6,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class Main {
 	public static void main(String[] args) {
@@ -19,6 +21,7 @@ public class Main {
 			dataInBufferedReader = readInDataBR(dataUrl);
 			particles = createArrayParticles(dataInBufferedReader);
 			filterByZValues(particles);
+
 		} catch (IOException e) {
 			System.out.println("Error parsing in URL.");
 		}
@@ -52,19 +55,70 @@ public class Main {
 	}
 
 	public static void filterByZValues(final ArrayList<Particles> particles) {
-		Set<Integer> zValues = positionsOfZValue(particles);
-		for (int z : zValues) {
-			System.out.println(1);
-		}
-	}
-
-	public static Set<Integer> positionsOfZValue(final ArrayList<Particles> particles) {
 		final HashMap<Integer, Integer> hashMapZValues = new HashMap<Integer, Integer>();
+		int numberOfBPMs;
+		int separationDistance;
+		double meanX;
+		double meanY;
+
+		ArrayList<Double> maximumRadialArray = new ArrayList<Double>();
+
 		for (final Particles p : particles) {
 			hashMapZValues.put(p.getZ(), 0);
 		}
 
-		return hashMapZValues.keySet();
+		Set<Integer> zValues = hashMapZValues.keySet();
+		TreeSet<Integer> zValuesOrdered = new TreeSet<Integer>(zValues);
+
+		numberOfBPMs = zValues.size();
+
+		System.out.println("Number of BPMs: " + numberOfBPMs);
+		System.out.println("Separation distance: " + 100 + "\n");
+
+		for (int z : zValuesOrdered) {
+			int numberOfParticles = numberOfBPMType(particles, z);
+			meanX = meanOfX(particles, z);
+			meanY = meanOfY(particles, z);
+
+			System.out.println("Number of particles at BPMs " + z + ": " + numberOfParticles);
+			System.out.println("Mean of X at BPMs " + z + ": " + meanX);
+			System.out.println("Mean of Y at BPMs " + z + ": " + meanY);
+
+			ArrayList<Double> radialArray = radialDistanceArrayEachBPM(particles, meanX, meanY, z);
+			double rms = Math.sqrt(sumOfArraySquared(radialArray) / radialArray.size());
+
+			Collections.sort(radialArray, Collections.reverseOrder());
+
+			double maximumRadial = radialArray.get(0);
+
+			maximumRadialArray.add(maximumRadial);
+
+			System.out.println("RMS for BPS " + z + ": " + rms);
+			System.out.println("Maximum radius at each BPM " + z + ": " + maximumRadial + "\n");
+		}
+
+		for (int i = 0; i < maximumRadialArray.size() - 1; i++) {
+
+			double maxRadialDifferencesBetweenBPMs = maximumRadialArray.get(i) - maximumRadialArray.get(i + 1);
+
+			double pipeSwitchRadius;
+
+			if (maxRadialDifferencesBetweenBPMs > 2) {
+				pipeSwitchRadius = maximumRadialArray.get(i + 1);
+
+				for (double radius : maximumRadialArray) {
+					
+					if (radius > pipeSwitchRadius && radius < 2) {
+						pipeSwitchRadius = radius;
+					}
+				}
+
+				System.out.println("The pipe changes between " + zValuesOrdered.toArray()[i] + " and "
+						+ zValuesOrdered.toArray()[i + 1]);
+
+				System.out.println("The minimum radius of the pipe is " + pipeSwitchRadius);
+			}
+		}
 	}
 
 	public static int numberOfBPMType(final ArrayList<Particles> particles, final int BPMType) {
@@ -75,5 +129,54 @@ public class Main {
 			}
 		}
 		return count;
+	}
+
+	public static double meanOfX(final ArrayList<Particles> particles, final int BPMType) {
+		double sumOfX = 0;
+		int numberOfXInBPM = numberOfBPMType(particles, BPMType);
+
+		for (final Particles p : particles) {
+			if (p.getZ() == BPMType) {
+				sumOfX += p.getX();
+			}
+		}
+		return sumOfX / numberOfXInBPM;
+	}
+
+	public static double meanOfY(final ArrayList<Particles> particles, final int BPMType) {
+		double sumOfY = 0;
+		int numberOfYInBPM = numberOfBPMType(particles, BPMType);
+
+		for (final Particles p : particles) {
+			if (p.getZ() == BPMType) {
+				sumOfY += p.getY();
+			}
+		}
+		return sumOfY / numberOfYInBPM;
+	}
+
+	public static double radialDistance(final Particles particle, double meanX, double meanY) {
+		final double radialDistanceSquared = Math.pow(meanX - particle.getX(), 2)
+				+ Math.pow(meanY - particle.getY(), 2);
+		return Math.sqrt(radialDistanceSquared);
+	}
+
+	public static ArrayList<Double> radialDistanceArrayEachBPM(ArrayList<Particles> particles, double meanX,
+			double meanY, int zValue) {
+		ArrayList<Double> radialDistanceArray = new ArrayList<Double>();
+		for (Particles p : particles) {
+			if (p.getZ() == zValue) {
+				radialDistanceArray.add(radialDistance(p, meanX, meanY));
+			}
+		}
+		return radialDistanceArray;
+	}
+
+	public static double sumOfArraySquared(ArrayList<Double> radials) {
+		double sumOfRadial = 0;
+		for (double r : radials) {
+			sumOfRadial += Math.pow(r, 2);
+		}
+		return sumOfRadial;
 	}
 }
