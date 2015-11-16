@@ -14,9 +14,10 @@ public final class WordCounter {
 
 	public static void main(String[] args) {
 		final String url = "http://www.hep.ucl.ac.uk/undergrad/3459/data/module4/module4_text.txt";
-		
-		//Use try-with-resources for automatic close; no need to define BR outside try.
-		try (final BufferedReader br = brFromURL(url)){
+
+		// Use try-with-resources for automatic close; no need to define BR
+		// outside try.
+		try (final BufferedReader br = brFromURL(url)) {
 			final int numberOfWords = countWordsInResource(br);
 			System.out.println("Number of words in the URL: " + numberOfWords);
 		} catch (final MalformedURLException e) {
@@ -35,20 +36,20 @@ public final class WordCounter {
 
 	// Counts the number of words within the given URL data stored within a
 	// BufferedReader
-	private static int countWordsInResource(final BufferedReader dataAsBR) {	
+	private static int countWordsInResource(final BufferedReader dataAsBR) {
 		final Scanner in = new Scanner(dataAsBR);
 		int wordCount = 0;
-		
+
 		while (in.hasNext()) {
 			in.next();
 			wordCount++;
 		}
-		
+
 		return wordCount;
-		
-//		return dataAsBR.lines()
-//				.mapToInt(WordCounter::countWordsInLine)
-//				.sum();
+
+		// return dataAsBR.lines()
+		// .mapToInt(WordCounter::countWordsInLine)
+		// .sum();
 	}
 
 	private static int countWordsInLine(final String line) {
