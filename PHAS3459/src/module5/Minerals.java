@@ -10,9 +10,9 @@ import java.util.Scanner;
 public class Minerals {
 	public static void main(String[] args) {
 		// Reading in data from URLs and storing in appropriate HashMaps.
-		final HashMap<Integer, Double> masses = getMasses(
+		final HashMap<Integer, Double> masses = importMasses(
 				"http://www.hep.ucl.ac.uk/undergrad/3459/data/module5/module5-samples.txt");
-		final HashMap<Integer, String> locations = getLocations(
+		final HashMap<Integer, String> locations = importLocations(
 				"http://www.hep.ucl.ac.uk/undergrad/3459/data/module5/module5-locations.txt");
 
 		// Finds the maximum and minimum mass and retrieves its key.
@@ -33,7 +33,7 @@ public class Minerals {
 	}
 
 	// Puts ID + masses in a HashMap.
-	private static HashMap<Integer, Double> getMasses(final String url) {
+	private static HashMap<Integer, Double> importMasses(final String url) {
 		final HashMap<Integer, Double> masses = new HashMap<>();
 		try {
 			final Scanner scannerMass = urlToScanner(url);
@@ -51,7 +51,7 @@ public class Minerals {
 	}
 
 	// Puts ID + locations in a HashMap.
-	private static HashMap<Integer, String> getLocations(final String url) {
+	private static HashMap<Integer, String> importLocations(final String url) {
 		final HashMap<Integer, String> locations = new HashMap<>();
 		try {
 			final Scanner scannerLocation = urlToScanner(url);
