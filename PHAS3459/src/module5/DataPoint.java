@@ -22,9 +22,4 @@ public class DataPoint {
 	public double getEy() {
 		return ey;
 	}
-
-	@Override
-	public String toString() {
-		return "DataPoint [x=" + x + ", y=" + y + ", ey=" + ey + "]";
-	}
 }

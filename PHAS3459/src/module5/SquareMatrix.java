@@ -1,51 +1,38 @@
 package module5;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class SquareMatrix {
 	private final double[][] elements;
 
 	public SquareMatrix(final double[][] elements) throws Exception {
-		this.elements = elements;
-
-		if (isSquareMatrix(this)) {
+		if (isSquare(elements)) {
 			throw new Exception("Invalid matrix, must be a square matrix.");
 		}
+		this.elements = elements;
 	}
 
 	// Method to test whether matrix is square.
-	private static boolean isSquareMatrix(final SquareMatrix sm) {
-		return Math.pow(numberRows(sm.elements), 2) != numberElements(sm.elements);
+	private static boolean isSquare(final double[][] elements) {
+		return Math.pow(elements.length, 2) != countElements(elements);
 	}
 
 	// Method to test whether two matrices are of the same dimensions.
 	private static boolean areMatricesSameSize(final SquareMatrix sm1, final SquareMatrix sm2) {
-		return SquareMatrix.numberRows(sm1.elements) != SquareMatrix.numberRows(sm2.elements)
-				&& SquareMatrix.numberElements(sm1.elements) != SquareMatrix.numberElements(sm2.elements);
+		return sm1.getRowCount() != sm2.getRowCount() && sm1.getElementCount() != sm2.getElementCount();
 	}
 
-	public int dimension() {
-		return this.elements.length;
+	private static int countElements(final double[][] elements) {
+		return Arrays.stream(elements).mapToInt(row -> row.length).sum();
 	}
 
-	// Number of rows in matrix.
-	private static int numberRows(final double[][] elements) {
-		int nRows = 0;
-		for (double[] rows : elements) {
-			nRows++;
-		}
-		return nRows;
+	private int getRowCount() {
+		return elements.length;
 	}
 
-	// Number of elements within the matrix.
-	private static int numberElements(final double[][] elements) {
-		int nEle = 0;
-		for (double[] rows : elements) {
-			for (double ele : rows) {
-				nEle++;
-			}
-		}
-		return nEle;
+	private int getElementCount() {
+		return countElements(elements);
 	}
 
 	// Sets up a unit matrix corresponding to a given size.
@@ -140,21 +127,21 @@ public class SquareMatrix {
 		return SquareMatrix.multiply(this, sm);
 	}
 
-	// toString method to print matrix to the console. Takes care of 2x2 and 3x3
-	// matrices only.
+	//toString, pretty prints matrices using functional programming.
+	@Override
 	public String toString() {
-		if (elements.length == 3 && elements[0].length == 3) {
-			return "\n" + elements[0][0] + "\t" + elements[0][1] + "\t" + elements[0][2] + "\n" + elements[1][0] + "\t"
-					+ elements[1][1] + "\t" + elements[1][2] + "\n" + elements[2][0] + "\t" + elements[2][1] + "\t"
-					+ elements[2][2];
-		} else if (elements.length == 2 && elements[0].length == 2) {
-			return "\n" + elements[0][0] + "\t" + elements[0][1] + "\n" + elements[1][0] + "\t" + elements[1][1];
-		} else {
-			return "No formatted matrix for higher than 3x3 matrices.";
-		}
+		return Arrays.stream(elements)
+			.map(row -> {
+				return Arrays.toString(row) + "\n";
+			})
+			.collect(Collectors.joining())
+			.replaceAll(",", "\t")
+			.replaceAll("\\[", "[ ")
+			.replaceAll("]", " ]");
 	}
 
-	// Tests whether two SquareMatrix objects are equal.
+	// hashCode() and equals(Object) test whether two SquareMatrix objects are
+	// equal.
 	@Override
 	public int hashCode() {
 		final int prime = 31;

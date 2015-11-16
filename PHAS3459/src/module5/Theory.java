@@ -8,6 +8,6 @@ public class Theory {
 	}
 
 	public double y(final double x) {
-		return Math.pow(x, this.n);
+		return Math.pow(x, n);
 	}
 }

@@ -6,84 +6,88 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Scanner;
 
+// This program does not utilise classes and there is nothing stated about reusability, so everything in this class is static.
 public class Minerals {
-	// Instantiating two HashMap objects to store mass and locations.
-	private final HashMap<Integer, Double> hashMapMass = new HashMap<Integer, Double>();
-	private final HashMap<Integer, String> hashMapLocation = new HashMap<Integer, String>();
-
 	public static void main(String[] args) {
-		// Instantiating a Minerals object.
-		final Minerals minerals = new Minerals();
-
 		// Reading in data from URLs and storing in appropriate HashMaps.
-		minerals.importMass("http://www.hep.ucl.ac.uk/undergrad/3459/data/module5/module5-samples.txt");
-		minerals.importLocation("http://www.hep.ucl.ac.uk/undergrad/3459/data/module5/module5-locations.txt");
+		final HashMap<Integer, Double> masses = getMasses(
+				"http://www.hep.ucl.ac.uk/undergrad/3459/data/module5/module5-samples.txt");
+		final HashMap<Integer, String> locations = getLocations(
+				"http://www.hep.ucl.ac.uk/undergrad/3459/data/module5/module5-locations.txt");
 
 		// Finds the maximum and minimum mass and retrieves its key.
-		final int minimumMassCode = minerals.minimumMassCode();
-		final int maximumMassCode = minerals.maximumMassCode();
+		final int minimumMassCode = getMinimumMassCode(masses);
+		final int maximumMassCode = getMaximumMassCode(masses);
 
 		// Using the found keys, displays information on the mineral.
-		minerals.informationAboutCode(minimumMassCode);
-		minerals.informationAboutCode(maximumMassCode);
+		informationAboutCode(minimumMassCode, masses.get(minimumMassCode), locations.get(minimumMassCode));
+		System.out.println();
+		informationAboutCode(maximumMassCode, masses.get(maximumMassCode), locations.get(maximumMassCode));
 	}
 
-	private static Scanner urlToBr(final String urlString) throws IOException {
+	// Reads data from URL and returns scanner
+	private static Scanner urlToScanner(final String urlString) throws IOException {
 		final URL url = new URL(urlString);
 		final InputStream stream = url.openStream();
 		return new Scanner(stream);
 	}
 
-	private void importMass(final String url) {
-		Scanner scannerMass = null;
+	// Puts ID + masses in a HashMap.
+	private static HashMap<Integer, Double> getMasses(final String url) {
+		final HashMap<Integer, Double> masses = new HashMap<>();
 		try {
-			scannerMass = urlToBr(url);
+			final Scanner scannerMass = urlToScanner(url);
+			while (scannerMass.hasNext()) {
+				final int code = scannerMass.nextInt();
+				final double mass = scannerMass.nextDouble();
+
+				masses.put(code, mass);
+			}
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
 
-		while (scannerMass.hasNext()) {
-			final int code = scannerMass.nextInt();
-			final double mass = scannerMass.nextDouble();
-
-			hashMapMass.put(code, mass);
-		}
+		return masses;
 	}
 
-	private void importLocation(final String url) {
-		Scanner scannerLocation = null;
+	// Puts ID + locations in a HashMap.
+	private static HashMap<Integer, String> getLocations(final String url) {
+		final HashMap<Integer, String> locations = new HashMap<>();
 		try {
-			scannerLocation = urlToBr(url);
+			final Scanner scannerLocation = urlToScanner(url);
+			while (scannerLocation.hasNext()) {
+				final String location = scannerLocation.next();
+				final int code = scannerLocation.nextInt();
+
+				locations.put(code, location);
+			}
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
 
-		while (scannerLocation.hasNext()) {
-			final String location = scannerLocation.next("[A-Za-z]*");
-			final int code = scannerLocation.nextInt();
-
-			hashMapLocation.put(code, location);
-		}
+		return locations;
 	}
 
-	private int minimumMassCode() {
-		int codeOfValue = 0;
+	// Finds ID of minimum value in HashMap
+	private static int getMinimumMassCode(final HashMap<Integer, Double> masses) {
+		int minValueCode = 0;
 		double minValue = Double.POSITIVE_INFINITY;
 
-		for (HashMap.Entry<Integer, Double> mineral : hashMapMass.entrySet()) {
+		for (HashMap.Entry<Integer, Double> mineral : masses.entrySet()) {
 			if (mineral.getValue() < minValue) {
 				minValue = mineral.getValue();
-				codeOfValue = mineral.getKey();
+				minValueCode = mineral.getKey();
 			}
 		}
-		return codeOfValue;
+		return minValueCode;
 	}
 
-	private int maximumMassCode() {
+	// Finds ID of maximum value in HashMap
+	private static int getMaximumMassCode(final HashMap<Integer, Double> masses) {
 		int codeOfValue = 0;
 		double maxValue = Double.NEGATIVE_INFINITY;
 
-		for (HashMap.Entry<Integer, Double> mineral : hashMapMass.entrySet()) {
+		for (HashMap.Entry<Integer, Double> mineral : masses.entrySet()) {
 			if (mineral.getValue() > maxValue) {
 				maxValue = mineral.getValue();
 				codeOfValue = mineral.getKey();
@@ -92,8 +96,10 @@ public class Minerals {
 		return codeOfValue;
 	}
 
-	private void informationAboutCode(final int code) {
-		System.out.println("Code Number: " + code + "\n" + "Mass: " + this.hashMapMass.get(code) + "\n" + "Location: "
-				+ this.hashMapLocation.get(code) + "\n");
+	// Summarises content of a mineral.
+	private static void informationAboutCode(final int code, final double mass, final String location) {
+		System.out.println("Code Number: " + code);
+		System.out.println("Mass: " + mass);
+		System.out.println("Location: " + location);
 	}
 }
