@@ -6,7 +6,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Main {
+public class MidTermExam {
 	public static void main(String[] args) {
 		// Array of integer months
 		final int months[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
