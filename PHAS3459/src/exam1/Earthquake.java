@@ -25,14 +25,12 @@ public class Earthquake {
 		return magnitude;
 	}
 
-	// Retrieves Time object that contains all information about when the
-	// earthquake happened.
+	// Retrieves Time object that contains all information about when the earthquake happened.
 	public Time getDate() {
 		return date;
 	}
 
-	// Retrieves Position object that contains all information about where the
-	// earthquake happened.
+	// Retrieves Position object that contains all information about where the earthquake happened.
 	public Position getPosition() {
 		return position;
 	}

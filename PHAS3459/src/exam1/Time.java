@@ -9,7 +9,6 @@ public class Time {
 	private double second;
 
 	public Time(int year, int month, int day, int hour, int minute, double second) {
-
 		this.year = year;
 		this.month = month;
 		this.day = day;
@@ -21,8 +20,7 @@ public class Time {
 	// Allows object to be printed into a string.
 	@Override
 	public String toString() {
-		return "Time [year=" + year + ", month=" + month + ", day=" + day + ", hour=" + hour + ", minute=" + minute
-				+ ", second=" + second + "]";
+		return "Time [year=" + year + ", month=" + month + ", day=" + day + ", hour=" + hour + ", minute=" + minute + ", second=" + second + "]";
 	}
 
 	// Retrieves month when earthquake happened.

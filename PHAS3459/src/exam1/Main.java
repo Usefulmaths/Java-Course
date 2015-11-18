@@ -13,23 +13,18 @@ public class Main {
 
 		try {
 			// Reads in data from URL and creates a scanner
-			final Scanner data = readInData(
-					" http://www.hep.ucl.ac.uk/undergrad/3459/exam-data/2015-16/earthquakesCA1989.txt");
+			final Scanner data = readInData("http://www.hep.ucl.ac.uk/undergrad/3459/exam-data/2015-16/earthquakesCA1989.txt");
 
-			// ArrayList of all the Earthquakes as an Earthquake object in the
-			// data.
+			// ArrayList of all the Earthquakes as an Earthquake object in the data.
 			final ArrayList<Earthquake> earthquakes = earthquakeArrayList(data);
 
-			// Calls a method to retrieve the largest magnitude of Earthquake in
-			// the data.
+			// Calls a method to retrieve the largest magnitude of Earthquake in the data.
 			final Earthquake earthquakeLargestMagnitude = largestMagnitude(earthquakes);
 
 			System.out.println("Number of earthquakes recorded in the file: " + earthquakes.size());
-			System.out
-					.println("Details of earthquake with largest magnitude: \n\t" + earthquakeLargestMagnitude + "\n");
+			System.out.println("Details of earthquake with largest magnitude: \n\t" + earthquakeLargestMagnitude + "\n");
 
-			// Calls a void method that prints out no. of earthquakes, deepest
-			// earthquake, and most accurate depth for each month in data.
+			// Calls a void method that prints out no. of earthquakes, deepest, earthquake, and most accurate depth for each month in data.
 			filterByMonth(earthquakes, months);
 
 		} catch (IOException e) {
@@ -58,8 +53,7 @@ public class Main {
 			// Scanner is used to read through each line.
 			final Scanner scanLine = new Scanner(dataLine);
 
-			// Setting variables for each member variable to parse into an
-			// Earthquake object.
+			// Setting variables for each member variable to parse into an Earthquake object.
 			while (scanLine.hasNext()) {
 				final int year = scanLine.nextInt();
 				final int month = scanLine.nextInt();
@@ -76,8 +70,7 @@ public class Main {
 				final double horizontalMinorAxis = scanLine.nextDouble();
 				final int azimuth = scanLine.nextInt();
 				final double depthError = scanLine.nextDouble();
-				final Position position = new Position(latitude, longitude, depth, horizontalMajorAxis,
-						horizontalMinorAxis, azimuth, depthError);
+				final Position position = new Position(latitude, longitude, depth, horizontalMajorAxis, horizontalMinorAxis, azimuth, depthError);
 
 				final double magnitude = scanLine.nextDouble();
 				final int ID = scanLine.nextInt();
@@ -91,16 +84,13 @@ public class Main {
 		return earthquakes;
 	}
 
-	// Finds the Earthquake with the largest magnitude and returns that
-	// Earthquake object.
+	// Finds the Earthquake with the largest magnitude and returns that Earthquake object.
 	private static Earthquake largestMagnitude(final ArrayList<Earthquake> earthquakes) {
-
 		double largestMagnitude = Double.NEGATIVE_INFINITY;
 		int indexOfMagnitude = 0;
 		int indexOfLargestMagnitude = 0;
 
-		// Tests each earthquake and compares with largestMagnitude. If larger,
-		// stores value. If not, rejects.
+		// Tests each earthquake and compares with largestMagnitude. If larger, stores value. If not, rejects.
 		for (Earthquake e : earthquakes) {
 			if (e.getMagnitude() > largestMagnitude) {
 				largestMagnitude = e.getMagnitude();
@@ -108,7 +98,6 @@ public class Main {
 			}
 			indexOfMagnitude++;
 		}
-
 		return earthquakes.get(indexOfLargestMagnitude);
 	}
 
@@ -124,8 +113,7 @@ public class Main {
 		return count;
 	}
 
-	// Takes an ArrayList with all Earthquake data and splits into an ArrayList
-	// of all earthquakes in a given month.
+	// Takes an ArrayList with all Earthquake data and splits into an ArrayList of all earthquakes in a given month.
 	private static ArrayList<Earthquake> earthquakesInMonth(final ArrayList<Earthquake> earthquakes, final int month) {
 		final ArrayList<Earthquake> earthquakesInMonth = new ArrayList<Earthquake>();
 		for (Earthquake e : earthquakes) {
@@ -136,8 +124,7 @@ public class Main {
 		return earthquakesInMonth;
 	}
 
-	// Finds the deepest earthquake in a given month and returns full details as
-	// an Earthquake object.
+	// Finds the deepest earthquake in a given month and returns full details as an Earthquake object.
 	private static Earthquake deepestEarthquakePerMonth(final ArrayList<Earthquake> earthquakes, final int month) {
 		final ArrayList<Earthquake> earthquakesInMonth = earthquakesInMonth(earthquakes, month);
 		double deepestEarthquake = Double.NEGATIVE_INFINITY;
@@ -154,10 +141,8 @@ public class Main {
 		return earthquakesInMonth.get(indexOfLargestDepth);
 	}
 
-	// Finds the Earthquake with the most accurate depth measurement and returns
-	// full details as an Earthquake object.
-	private static Earthquake mostAccurateDepthEarthquakeMonth(final ArrayList<Earthquake> earthquakes,
-			final int month) {
+	// Finds the Earthquake with the most accurate depth measurement and returns full details as an Earthquake object.
+	private static Earthquake mostAccurateDepthEarthquakeMonth(final ArrayList<Earthquake> earthquakes, final int month) {
 		final ArrayList<Earthquake> earthquakesInMonth = earthquakesInMonth(earthquakes, month);
 		double mostAccurateDepth = Double.POSITIVE_INFINITY;
 		int indexOfDepthError = 0;
@@ -173,8 +158,7 @@ public class Main {
 		return earthquakesInMonth.get(indexOfMinimumDepthError);
 	}
 
-	// Runs over each month and executes monthly methods and prints details to
-	// screen.
+	// Runs over each month and executes monthly methods and prints details to screen.
 	private static void filterByMonth(final ArrayList<Earthquake> earthquakes, final int[] months) {
 		for (int month : months) {
 			final int numberOfEarthquakes = numberOfEarthquakesPerMonth(earthquakes, month);
@@ -184,10 +168,7 @@ public class Main {
 			System.out.println("Deepest Earthquake in month " + month + ": " + deepestEarthquakeMonth);
 
 			final Earthquake mostAccurateDepthErrorEarthquake = mostAccurateDepthEarthquakeMonth(earthquakes, month);
-			System.out.println("Most accurate depth error Earthquake in month " + month + ": "
-					+ mostAccurateDepthErrorEarthquake + "\n");
-
+			System.out.println("Most accurate depth error Earthquake in month " + month + ": " + mostAccurateDepthErrorEarthquake + "\n");
 		}
 	}
-
 }

@@ -9,8 +9,7 @@ public class Position {
 	private int azimuth;
 	private double depthError;
 
-	public Position(double latitude, double longitude, double depth, double horizontalMajorAxis,
-			double horizontalMinorAxis, int azimuth, double depthError) {
+	public Position(double latitude, double longitude, double depth, double horizontalMajorAxis, double horizontalMinorAxis, int azimuth, double depthError) {
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.depth = depth;
@@ -19,13 +18,11 @@ public class Position {
 		this.azimuth = azimuth;
 		this.depthError = depthError;
 	}
-	
+
+	// Allows object to be printed into a string. Doesn't print horizontalMajorAxis, horizontalMinorAxis, or azimuth.
 	@Override
-	// Allows object to be printed into a string. 
-	// Doesn't print horizontalMajorAxis, horizontalMinorAxis, or azimuth.
 	public String toString() {
-		return "Position [latitude=" + latitude + ", longitude=" + longitude + ", depth=" + depth + ", depthError="
-				+ depthError + "]";
+		return "Position [latitude=" + latitude + ", longitude=" + longitude + ", depth=" + depth + ", depthError=" + depthError + "]";
 	}
 
 	// Retrieves depth of earthquake.
