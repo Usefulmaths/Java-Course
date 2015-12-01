@@ -1,5 +1,6 @@
 package module6;
 
+//Extends DataPoint in order to access variables and methods.
 public class LabelledDataPoint extends DataPoint {
 
 	private final String label;
@@ -11,10 +12,6 @@ public class LabelledDataPoint extends DataPoint {
 
 	@Override
 	public String toString() {
-		return label + ": " + "x = " + this.getX() + ", y = " + this.getY() + "+-" + this.getEy();
+		return label + ": " + "x = " + x + ", y = " + y + "+-" + ey;
 	}
-	
-	
-	
-	
 }
