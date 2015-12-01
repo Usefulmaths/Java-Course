@@ -4,7 +4,7 @@ import java.util.Collection;
 
 public class ChiSquared implements GoodnessOfFitCalculator {
 
-	// Calculates ChiSquared
+	// Calculates ChiSquared.
 	public double goodnessOfFit(final Collection<DataPoint> data, final Theory theory) {
 		// Maps each dataPoint to its variation from the model and sums them up
 		return data.stream()
