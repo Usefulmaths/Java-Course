@@ -1,11 +1,12 @@
 package module6;
 
+// Implements Theory to inherit abstract method y.
 public class PowerLawTheory implements Theory {
 
 	private final double n;
 
-	public PowerLawTheory(final double d) {
-		this.n = d;
+	public PowerLawTheory(final double n) {
+		this.n = n;
 	}
 
 	@Override
@@ -17,7 +18,4 @@ public class PowerLawTheory implements Theory {
 	public String toString() {
 		return "x^" + n;
 	}
-	
-	
-
 }

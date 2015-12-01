@@ -1,5 +1,5 @@
 package module6;
 
 public interface Theory {
-	public double y(final double x);
+	abstract double y(final double x);
 }

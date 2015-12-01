@@ -1,5 +1,6 @@
 package module6;
 
+//Implements Theory to inherit abstract method y.
 public class QuadraticTheory implements Theory {
 
 	private final double a;
@@ -21,5 +22,4 @@ public class QuadraticTheory implements Theory {
 	public String toString() {
 		return a + "x^2 + " + b + "x + " + c;
 	}
-
 }
