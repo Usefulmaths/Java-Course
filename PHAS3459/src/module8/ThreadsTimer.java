@@ -30,7 +30,7 @@ public class ThreadsTimer {
 
 		System.out.println();
 		
-		System.out.println("Using a single thread to estimate Pi takes around two to four times longer than using multiple threads.");
+		System.out.println("By distributing the work load over multiple CPU cores (by threading), it dramatically decreases the time in which the task is carried out. In this case, using four threads is around two to three times faster than using a single thread.");
 	}
 
 	// Runs MonteCarloPiCalculatorTask with single thread.
@@ -74,7 +74,7 @@ public class ThreadsTimer {
 	}
 
 	// A runnable to run MonteCarloPiCalcuatorTask and to retrieve the estimates.
-	private static class MonteCarloRunnable implements Runnable {
+	private static  class MonteCarloRunnable implements Runnable {
 		private final int limit;
 		private double estimate;
 
