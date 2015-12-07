@@ -5,7 +5,6 @@ import java.util.List;
 
 public class ThreadsTimer {
 	public static void main(String[] args) throws InterruptedException {
-
 		// Number of points to test.
 		final int points = 10_000_000;
 
@@ -70,11 +69,11 @@ public class ThreadsTimer {
 		return monteCarloRunnables.stream()
 				.mapToDouble(MonteCarloRunnable::getEstimate)
 				.average()
-				.orElse(-1);
+				.orElseThrow(() -> new RuntimeException("There were no elements to average."));
 	}
 
 	// A runnable to run MonteCarloPiCalcuatorTask and to retrieve the estimates.
-	private static  class MonteCarloRunnable implements Runnable {
+	private static class MonteCarloRunnable implements Runnable {
 		private final int limit;
 		private double estimate;
 

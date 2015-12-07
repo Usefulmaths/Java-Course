@@ -1,7 +1,6 @@
 package module8;
 
 public class CountdownTask implements Runnable {
-
 	private int numberOfSecondsCountDown;
 
 	public CountdownTask(int numberOfSecondsCountDown) {

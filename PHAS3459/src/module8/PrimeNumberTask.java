@@ -10,7 +10,6 @@ public class PrimeNumberTask implements Runnable {
 		boolean isRunning = true;
 
 		while (isRunning) {
-
 			// Time to check whether number is prime is longer than it takes to
 			// flick through all different numbers, therefore
 			// largestIntegerChecked and largestPrimeNumber are equal most of
