@@ -106,6 +106,21 @@ public class Main {
 				asteroids.add(body);
 			}
 		}
+
+		ImagedBody ceres = new ImagedBody("ceres", 9.393e20, new Vector(2.9773 * AU, 0), new Vector(0, -17482),
+				"ceres.png");
+		ImagedBody pallas = new ImagedBody("pallas", 2.11e20, new Vector(0, 3.412605509 * AU), new Vector(15050, 0),
+				"pallas.png");
+		ImagedBody vesta = new ImagedBody("vesta", 2.59076e20, new Vector(-2.57138 * AU, 0), new Vector(0, 17340),
+				"vesta.png");
+		ImagedBody hygiea = new ImagedBody("hygiea", 8.67e19, new Vector(0, -3.5024 * AU), new Vector(-13760, 0),
+				"hygiea.png");
+
+		asteroids.add(ceres);
+		asteroids.add(pallas);
+		asteroids.add(vesta);
+		asteroids.add(hygiea);			
+
 		return asteroids;
 	}
 

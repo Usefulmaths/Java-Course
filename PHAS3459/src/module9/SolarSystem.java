@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 public class SolarSystem {
 	public static List<Body> bodies;
-	public static int secondsPerTick = 24*60*60;
+	public static int secondsPerTick = 60*60;
 
 	public SolarSystem(final List<Body> bodies) {
 		this.bodies = bodies;

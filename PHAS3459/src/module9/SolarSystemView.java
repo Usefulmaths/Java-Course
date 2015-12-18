@@ -47,10 +47,10 @@ public class SolarSystemView extends JPanel {
 					ib.draw(x, y, g, zoomValue * 70, zoomValue * 40);
 				} else if (ib.name == "asteroid") {
 					ib.draw(x, y, g, zoomValue * 10, zoomValue * 10);
-				
-				} else if (ib.name == "mercury"||ib.name=="venus") {
+
+				} else if (ib.name == "mercury" || ib.name == "venus") {
 					ib.draw(x, y, g, zoomValue * 10, zoomValue * 10);
-				
+
 				} else {
 					ib.draw(x, y, g, zoomValue * 20, zoomValue * 20);
 				}
