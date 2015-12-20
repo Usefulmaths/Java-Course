@@ -2,18 +2,25 @@ package module9;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
-public class SolarSystemView extends JPanel {
+public class SolarSystemView extends JPanel implements MouseDragListener {
+	private static final long serialVersionUID = 1L;
 
 	private final SolarSystem solarSystem;
-	private int zoomValue = 1;
+	private double zoomValue = 1;
 	public static boolean toggleNames = false;
+
 	// private final double startTime = System.currentTimeMillis();
 
 	public SolarSystemView(SolarSystem solarSystem) {
 		this.solarSystem = solarSystem;
+
+		addMouseListener(this);
+		addMouseMotionListener(this);
 	}
 
 	@Override
@@ -30,83 +37,70 @@ public class SolarSystemView extends JPanel {
 		final int yCentre = getHeight() / 2;
 
 		for (int i = 0; i < solarSystem.bodies.size(); i++) {
-			final Body body = solarSystem.bodies.get(i);
+			final ImagedBody body = (ImagedBody) solarSystem.bodies.get(i);
 
 			final int x = xCentre + shorten(body.position.x);
 			final int y = yCentre + shorten(body.position.y);
 
-			final int radius;
-			if (body instanceof ImagedBody) {
-				ImagedBody ib = (ImagedBody) body;
-
-				if (ib.name == "sun") {
-					ib.draw(x, y, g, zoomValue * 100, zoomValue * 100);
-				} else if (ib.name == "jupiter") {
-					ib.draw(x, y, g, zoomValue * 40, zoomValue * 40);
-				} else if (ib.name == "saturn") {
-					ib.draw(x, y, g, zoomValue * 70, zoomValue * 40);
-				} else if (ib.name == "asteroid") {
-					ib.draw(x, y, g, zoomValue * 10, zoomValue * 10);
-
-				} else if (ib.name == "mercury" || ib.name == "venus") {
-					ib.draw(x, y, g, zoomValue * 10, zoomValue * 10);
-
-				} else {
-					ib.draw(x, y, g, zoomValue * 20, zoomValue * 20);
-				}
-
-			} else {
-				if (body.name == "asteroid") {
-					radius = setObjectSize(1.2);
-					body.draw(x, y, radius, g);
-				} else if (body.name == "jupiter" || body.name == "saturn" || body.name == "uranus") {
-					radius = setObjectSize(8);
-					body.draw(x, y, radius, g);
-				} else {
-					radius = setObjectSize(2);
-					body.draw(x, y, radius, g);
-				}
-			}
+			final Dimensions dimensions = getDimensionsForBody(body.name);
+			drawWithOffset(g, body.image, x, y, dimensions);
 
 			g.setColor(Color.WHITE);
-			if (body.name != "asteroid" && toggleNames) {
-				g.drawString(body.name, x, y);
+			if (toggleNames && body.name != "asteroid") {
+				drawName(g, body.name, x, y);
 			}
 		}
 
 	}
 
-	private void drawCircle(Graphics g, int x, int y, int diameter, Body body) {
-		colourBodies(g, body);
-		g.fillOval(x, y, diameter, diameter);
+	void drawName(final Graphics g, final String name, final int x, final int y) {
+		g.drawString(Character.toUpperCase(name.charAt(0)) + name.substring(1), x + (int) offset.x, y + (int) offset.y);
+		
+	}
+
+	Dimensions getDimensionsForBody(final String name) {
+		switch (name) {
+		case "sun":
+			return Dimensions.square((int) (100 / zoomValue));
+		case "jupiter":
+			return Dimensions.square((int) (60 / zoomValue));
+		case "uranus":
+			return Dimensions.square((int) (60 / zoomValue));
+		case "neptune":
+			return Dimensions.square((int) (60 / zoomValue));
+		case "saturn":
+			return new Dimensions((int) (70 / zoomValue), (int) (40 / zoomValue));
+		case "asteroid":
+			return Dimensions.square((int) (10 / zoomValue));
+		case "mercury":
+			return Dimensions.square((int) (10 / zoomValue));
+		default:
+			return Dimensions.square((int) (30 / zoomValue));
+		}
+	}
+
+	static class Dimensions {
+		public final int width;
+		public final int height;
+
+		public static Dimensions square(final int length) {
+			return new Dimensions(length, length);
+		}
+
+		public Dimensions(final int width, final int height) {
+			this.width = width;
+			this.height = height;
+		}
+
+	}
+
+	void drawWithOffset(final Graphics g, final BufferedImage image, int x, int y, final Dimensions dimensions) {
+		g.drawImage(image, x - dimensions.width / 2 + (int) offset.x, y - dimensions.height / 2 + (int) offset.y,
+				dimensions.width, dimensions.height, null);
 	}
 
 	private int shorten(double value) {
-		return (int) (175 * zoomValue * value / Constants.AU);
-	}
-
-	public static void colourBodies(final Graphics g, Body body) {
-		if (body.name == "mercury") {
-			g.setColor(Color.GRAY);
-		} else if (body.name == "venus") {
-			g.setColor(Color.YELLOW);
-		} else if (body.name == "earth") {
-			g.setColor(Color.BLUE);
-		} else if (body.name == "mars") {
-			g.setColor(Color.RED);
-		} else if (body.name == "jupiter") {
-			g.setColor(Color.ORANGE);
-		} else if (body.name == "saturn") {
-			g.setColor(Color.ORANGE);
-		} else if (body.name == "uranus") {
-			g.setColor(Color.CYAN);
-		} else if (body.name == "sun") {
-			g.setColor(Color.ORANGE);
-		} else if (body.name == "asteroid") {
-			g.setColor(Color.WHITE);
-		} else if (body.name == "moon") {
-			g.setColor(Color.GRAY);
-		}
+		return (int) (250 / zoomValue * value / Constants.AU);
 	}
 
 	public void draw() {
@@ -118,7 +112,28 @@ public class SolarSystemView extends JPanel {
 		zoomValue = auPixels;
 	}
 
-	private int setObjectSize(double size) {
-		return (int) (zoomValue * size);
+	Vector previous;
+	Vector offset = new Vector(0, 0);
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		previous = new Vector(e.getX(), e.getY());
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		final int x = e.getX();
+		final int y = e.getY();
+
+		final Vector delta = new Vector(x - previous.x, y - previous.y);
+		offset = offset.add(delta);
+		previous = new Vector(x, y);
+
+		System.out.println("Absolute: (" + x + ", " + y + ")");
+		System.out.println("Previous: (" + previous.x + ", " + previous.y + ")");
+		System.out.println("Delta: (" + delta.x + ", " + delta.y + ")");
+		System.out.println();
+		// System.out.println("Initial x: " + initialX + "difference: " +
+		// dragX);
 	}
 }

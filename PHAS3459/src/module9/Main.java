@@ -9,11 +9,15 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+import javax.media.jai.TiledImage;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.Timer;
@@ -32,17 +36,17 @@ public class Main {
 		container.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		container.setSize((int) VIEW_WIDTH, (int) VIEW_HEIGHT);
 
-		List<Body> bodies = new ArrayList<>();
+		List<ImagedBody> bodies = new ArrayList<>();
 		ImagedBody centralBody;
 		try {
 			centralBody = new ImagedBody("sun", 333054 * MASS_EARTH, new Vector(0, 0), new Vector(0, 0), "sun.png");
 
-			List<Body> simpleSolarSystem = retrieveSimpleSolarSystem(centralBody);
-			List<Body> asteroids = addAsteroidBelt(250, centralBody);
+			List<ImagedBody> simpleSolarSystem = retrieveSimpleSolarSystem(centralBody);
+			List<ImagedBody> asteroids = addAsteroidBelt(250, centralBody);
 
 			bodies.addAll(simpleSolarSystem);
 			bodies.addAll(asteroids);
-
+			
 			SolarSystem solarSystem = new SolarSystem(bodies);
 			final SolarSystemView solarSystemView = new SolarSystemView(solarSystem);
 			container.add(solarSystemView);
@@ -52,7 +56,7 @@ public class Main {
 
 			final ZoomPanel zoomPanel = new ZoomPanel(solarSystemView::zoom);
 			widgets.add(zoomPanel);
-
+			
 			final JToggleButton jtb = new JToggleButton("Toggle Names");
 			jtb.addItemListener(new ItemListener() {
 				public void itemStateChanged(ItemEvent ev) {
@@ -65,11 +69,12 @@ public class Main {
 			});
 			widgets.add(jtb);
 
-			final int fps = 60;
+			final int fps = 200000;
 			final int updateDelay = 1000 / fps;
 			new Timer(updateDelay, (e) -> {
 				solarSystem.tick();
 				solarSystemView.draw();
+				System.out.println();
 			}).start();
 
 			container.setVisible(true);
@@ -86,14 +91,14 @@ public class Main {
 		return false;
 	}
 
-	private static Vector velocityPerpendicularToPosition(Body body, Body centralBody) {
+	private static Vector velocityPerpendicularToPosition(ImagedBody body, ImagedBody centralBody) {
 		double velocityAngle = -Math.PI / 2 + body.position.angle();
 		double velocity = Math.sqrt(Constants.G * centralBody.mass / body.separationVector(centralBody).magnitude());
 		return new Vector(velocity * Math.cos(velocityAngle), velocity * Math.sin(velocityAngle));
 	}
 
-	private static List<Body> addAsteroidBelt(int numberOfAsteroids, Body centralBody) throws IOException {
-		List<Body> asteroids = new ArrayList<>();
+	private static List<ImagedBody> addAsteroidBelt(int numberOfAsteroids, ImagedBody centralBody) throws IOException {
+		List<ImagedBody> asteroids = new ArrayList<>();
 
 		while (asteroids.size() < numberOfAsteroids) {
 			ImagedBody body = new ImagedBody("asteroid", 18.0e8 + 1e11 * Math.random(),
@@ -119,17 +124,17 @@ public class Main {
 		asteroids.add(ceres);
 		asteroids.add(pallas);
 		asteroids.add(vesta);
-		asteroids.add(hygiea);			
+		asteroids.add(hygiea);
 
 		return asteroids;
 	}
 
-	private static List<Body> retrieveSimpleSolarSystem(Body centralBody) throws IOException {
+	private static List<ImagedBody> retrieveSimpleSolarSystem(ImagedBody centralBody) throws IOException {
 
 		Vector initialEarthPosition = new Vector(Constants.AU, 0);
 		Vector initialEarthVelocity = new Vector(0, -30290);
 
-		List<Body> simpleSolarSystem = Arrays.asList(centralBody,
+		List<ImagedBody> simpleSolarSystem = Arrays.asList(centralBody,
 				new ImagedBody("mercury", 0.0553 * MASS_EARTH, new Vector(0.313 * AU, 0), new Vector(0, -58980),
 						"mercury.png"),
 				new ImagedBody("venus", 0.815 * MASS_EARTH, new Vector(0.731 * AU, 0), new Vector(0, -35260),
@@ -145,8 +150,13 @@ public class Main {
 						"jupiter.png"),
 				new ImagedBody("saturn", 95.2 * MASS_EARTH, new Vector(9.2 * AU, 0), new Vector(0, -10180),
 						"saturn.png"),
-				new Body("uranus", 14.5 * MASS_EARTH, new Vector(18.64 * AU, 0), new Vector(0, -7100)),
-				new Body("halley", 2.2 * 10e14, new Vector(35.1 * AU, 0), new Vector(0, -897)));
+				new ImagedBody("uranus", 14.5 * MASS_EARTH, new Vector(18.64 * AU, 0), new Vector(0, -7100),
+						"uranus.png"),
+				new ImagedBody("neptune", 17.1 * MASS_EARTH, new Vector(29.81 * AU, 0), new Vector(0, -5500),
+						"neptune.png"),
+				new ImagedBody("pluto(we still love you)", 0.0025 * MASS_EARTH, new Vector(30.16 * AU, 0),
+						new Vector(0, -6100), "pluto.png"),
+				new ImagedBody("halley", 2.2 * 10e14, new Vector(35.1 * AU, 0), new Vector(0, -897), "halley.png"));
 
 		return simpleSolarSystem;
 	}

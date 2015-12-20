@@ -13,20 +13,20 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class SolarSystem {
-	public static List<Body> bodies;
-	public static int secondsPerTick = 60*60;
+	public static List<ImagedBody> bodies;
+	public static int secondsPerTick = 24*60*60;
 
-	public SolarSystem(final List<Body> bodies) {
+	public SolarSystem(final List<ImagedBody> bodies) {
 		this.bodies = bodies;
 	}
 
-	public static Vector calculateTotalForce(Body body) {
+	public static Vector calculateTotalForce(ImagedBody body) {
 		return bodies.stream().filter(test -> test != body).map(body::calculateForce).reduce(Vector.VECTOR_ZERO,
 				Vector::add);
 	}
 
 	public static void tick() {
-		final Map<Body, Vector> forcesToApply = new HashMap<>();
+		final Map<ImagedBody, Vector> forcesToApply = new HashMap<>();
 
 		bodies.forEach(body -> {
 			final Vector totalForce = calculateTotalForce(body);
