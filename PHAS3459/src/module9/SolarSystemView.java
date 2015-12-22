@@ -6,12 +6,15 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class SolarSystemView extends JPanel implements MouseDragListener {
 	private final SolarSystem solarSystem;
-	private double zoomValue = 100;
+	private double zoomValue = 10;
 	public static boolean toggleNames = false;
 
 	public SolarSystemView(SolarSystem solarSystem) {
@@ -24,7 +27,6 @@ public class SolarSystemView extends JPanel implements MouseDragListener {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		setBackground(Color.BLACK);
 		drawBodies(g);
 	}
 
@@ -43,8 +45,9 @@ public class SolarSystemView extends JPanel implements MouseDragListener {
 				final ImagedBody earth = solarSystem.bodies.stream().filter(test -> test.name.equals("earth")).findAny()
 						.orElseThrow(() -> new RuntimeException("what"));
 
-				final Vector offsetFromEarth = body.separationVector(earth).unitVector().multiply(500).divide(zoomValue);
-			
+				final Vector offsetFromEarth = body.separationVector(earth).unitVector().multiply(500)
+						.divide(zoomValue);
+
 				final Vector drawPosition = new Vector(xCentre + shorten(body.position.x),
 						yCentre + shorten(body.position.y));
 
@@ -64,14 +67,24 @@ public class SolarSystemView extends JPanel implements MouseDragListener {
 			if (toggleNames && body.name != "asteroid") {
 				drawName(g, body.name, x, y);
 			}
+			
+			BufferedImage backgroundImage = null;
+			try {
+				backgroundImage = ImageIO.read(new File("starbackground.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
+			g.drawImage(backgroundImage, 0, 0, 2000, 1000, null);
+			
 			drawTime(g, SolarSystem.timer, 30, 30);
 		}
 
 	}
 
 	void drawTime(final Graphics g, double timer, final int x, final int y) {
-		//g.drawString("Time elapsed (days): " + Double.toString(timer), x, y);
+		// g.drawString("Time elapsed (days): " + Double.toString(timer), x, y);
 	}
 
 	void drawName(final Graphics g, final String name, final int x, final int y) {

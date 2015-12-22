@@ -10,6 +10,7 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ItemListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -35,7 +37,7 @@ public class Main {
 		Container container = new Container("Simple Solar System.");
 		container.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		container.setSize((int) VIEW_WIDTH, (int) VIEW_HEIGHT);
-
+		
 		List<ImagedBody> bodies = new ArrayList<>();
 		ImagedBody centralBody;
 		try {
@@ -50,7 +52,11 @@ public class Main {
 			SolarSystem solarSystem = new SolarSystem(bodies);
 			final SolarSystemView solarSystemView = new SolarSystemView(solarSystem);
 			container.add(solarSystemView);
-
+			
+			BufferedImage img = ImageIO.read(new File("starbackground.png"));
+			JLabel background = new JLabel(new ImageIcon(img));
+			
+			
 			final JPanel widgets = new JPanel(new FlowLayout(FlowLayout.CENTER));
 			container.add(widgets, BorderLayout.SOUTH);
 			final JLabel timerLabel = new JLabel(Double.toString(solarSystem.timer));
