@@ -6,8 +6,8 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -28,6 +28,17 @@ public class SolarSystemView extends JPanel implements MouseDragListener {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		drawBodies(g);
+		
+		BufferedImage img = null;
+		try{
+			img = ImageIO.read(new URL("https://raw.githubusercontent.com/Usefulmaths/PHAS3459/master/PHAS3459/starbackground.png?token=AIggDpTsyWU7qKDNB6uX4kkAC48e9Ektks5WggVvwA%3D%3D"));
+			
+		}
+		catch(IOException e){
+			
+		}
+		
+		g.drawImage(img, 0, 0, 2000, 1000, null);
 	}
 
 	private void drawBodies(final Graphics g) {
@@ -67,17 +78,7 @@ public class SolarSystemView extends JPanel implements MouseDragListener {
 			if (toggleNames && body.name != "asteroid") {
 				drawName(g, body.name, x, y);
 			}
-			
-			BufferedImage backgroundImage = null;
-			try {
-				backgroundImage = ImageIO.read(new File("starbackground.png"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 
-			g.drawImage(backgroundImage, 0, 0, 2000, 1000, null);
-			
 			drawTime(g, SolarSystem.timer, 30, 30);
 		}
 
