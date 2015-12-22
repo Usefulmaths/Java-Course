@@ -53,7 +53,7 @@ public class Main {
 			final SolarSystemView solarSystemView = new SolarSystemView(solarSystem);
 			container.add(solarSystemView);
 			
-			BufferedImage img = ImageIO.read(new File("starbackground.png"));
+			BufferedImage img = ImageIO.read(new URL());
 			JLabel background = new JLabel(new ImageIcon(img));
 			
 			
