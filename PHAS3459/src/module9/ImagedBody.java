@@ -1,9 +1,9 @@
 package module9;
 
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 
@@ -21,10 +21,21 @@ public class ImagedBody {
 		this.mass = mass;
 		this.position = position;
 		this.velocity = velocity;
-		this.image = ImageIO.read(new File(image));
+		// this.image = ImageIO.read(new File(image));
+		this.image = readPictureFromURL(image);
 	}
+
+	public ImagedBody(String name, double mass, Vector position, Vector velocity) {
+
+		this.name = name;
+		this.mass = mass;
+		this.position = position;
+		this.velocity = velocity;
+		// this.image = ImageIO.read(new File(image));
+	}
+
 	public Vector separationVector(ImagedBody other) {
-		return new Vector(other.position.x - this.position.x, other.position.y - this.position.y);
+		return other.position.subtract(this.position);
 	}
 
 	public Vector calculateForce(ImagedBody other) {
@@ -45,11 +56,19 @@ public class ImagedBody {
 		final Vector changePosition = this.velocity.multiply(timeStep);
 		this.position = this.position.add(changePosition);
 	}
+
+	private static BufferedImage readPictureFromURL(String image) throws IOException {
+		System.out.println("Receiving images from GitHub: " + image);
+		URL url = new URL("https://raw.githubusercontent.com/Usefulmaths/module9images/master/" + image);
+		return ImageIO.read(url);
+
+		//return ImageIO.read(new File(image));
+	}
+
 	@Override
 	public String toString() {
 		return "ImagedBody [name=" + name + ", mass=" + mass + ", position=" + position + ", velocity=" + velocity
 				+ ", image=" + image + "]";
 	}
 
-	
 }
