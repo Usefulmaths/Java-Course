@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 
 public class SolarSystemView extends JPanel implements MouseDragListener {
 	private final SolarSystem solarSystem;
-	private double zoomValue = 1;
+	private double zoomValue = 100;
 	public static boolean toggleNames = false;
 
 	public SolarSystemView(SolarSystem solarSystem) {
@@ -43,7 +43,7 @@ public class SolarSystemView extends JPanel implements MouseDragListener {
 				final ImagedBody earth = solarSystem.bodies.stream().filter(test -> test.name.equals("earth")).findAny()
 						.orElseThrow(() -> new RuntimeException("what"));
 
-				final Vector offsetFromEarth = body.separationVector(earth).unitVector().multiply(50).divide(zoomValue);
+				final Vector offsetFromEarth = body.separationVector(earth).unitVector().multiply(500).divide(zoomValue);
 			
 				final Vector drawPosition = new Vector(xCentre + shorten(body.position.x),
 						yCentre + shorten(body.position.y));
@@ -81,23 +81,23 @@ public class SolarSystemView extends JPanel implements MouseDragListener {
 	Dimensions getDimensionsForBody(final String name) {
 		switch (name) {
 		case "sun":
-			return Dimensions.square((int) (120 / zoomValue));
+			return Dimensions.square((int) (1200 / zoomValue));
 		case "jupiter":
-			return Dimensions.square((int) (80 / zoomValue));
+			return Dimensions.square((int) (800 / zoomValue));
 		case "uranus":
-			return Dimensions.square((int) (60 / zoomValue));
+			return Dimensions.square((int) (600 / zoomValue));
 		case "neptune":
-			return Dimensions.square((int) (60 / zoomValue));
+			return Dimensions.square((int) (600 / zoomValue));
 		case "saturn":
-			return Dimensions.square((int) (70 / zoomValue));
+			return Dimensions.square((int) (700 / zoomValue));
 		case "asteroid":
-			return Dimensions.square((int) (15 / zoomValue));
+			return Dimensions.square((int) (150 / zoomValue));
 		case "mercury":
-			return Dimensions.square((int) (15 / zoomValue));
+			return Dimensions.square((int) (150 / zoomValue));
 		case "moon":
-			return Dimensions.square((int) (10 / zoomValue));
+			return Dimensions.square((int) (100 / zoomValue));
 		default:
-			return Dimensions.square((int) (30 / zoomValue));
+			return Dimensions.square((int) (300 / zoomValue));
 		}
 	}
 
@@ -107,7 +107,7 @@ public class SolarSystemView extends JPanel implements MouseDragListener {
 	}
 
 	private int shorten(double value) {
-		return (int) (250 / zoomValue * value / Constants.AU);
+		return (int) (2500 / zoomValue * value / Constants.AU);
 	}
 
 	public void draw() {

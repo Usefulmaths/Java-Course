@@ -7,9 +7,9 @@ import javax.swing.JSlider;
 
 public class ZoomPanel extends JPanel {
 	public ZoomPanel(final IntConsumer callback) {
-		final JSlider slider = new JSlider(0, 1000, 1);
+		final JSlider slider = new JSlider(100, 10000, 100);
 		slider.addChangeListener(e -> {
-			callback.accept(1 + slider.getValue() / 100);
+			callback.accept(1 + slider.getValue() / 100);	
 		});
 		add(slider);
 	}
