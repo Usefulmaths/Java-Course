@@ -16,4 +16,11 @@ public class Dimensions {
 	public int getHeight() {
 		return height;
 	}
+
+	public Dimensions divide(final double zoomValue) {
+		return new Dimensions(
+				(int) (width / zoomValue),
+				(int) (height / zoomValue)
+		);
+	}
 }

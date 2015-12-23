@@ -2,9 +2,9 @@ package module9;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.event.ItemListener;
 import java.io.IOException;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -12,11 +12,14 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 public class Container extends JFrame {
+	private final List<ScalableBody> bodies;
 	private SolarSystemView solarSystemView;
 	private TimerPanel timerPanel;
 	
-	public Container(final String title, final SolarSystem solarSystem) {
+	public Container(final String title, final SolarSystem solarSystem, final List<ScalableBody> bodies) {
 		super(title);
+		
+		this.bodies = bodies;
 		
 		try {
 			setupViews(solarSystem);
@@ -34,7 +37,7 @@ public class Container extends JFrame {
 	}
 	
 	private void setupViews(final SolarSystem solarSystem) throws IOException {
-		this.solarSystemView= new SolarSystemView(solarSystem);
+		this.solarSystemView = new SolarSystemView(bodies);
 		add(solarSystemView);
 		
 		final JPanel widgets = new JPanel(new FlowLayout(FlowLayout.CENTER));

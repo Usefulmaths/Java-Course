@@ -21,7 +21,7 @@ public class SolarSystem {
 				.reduce(
 						Vector.VECTOR_ZERO,
 						Vector::add
-					);
+				);
 	}
 
 	public void tick() {

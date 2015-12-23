@@ -9,24 +9,25 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class SolarSystemView extends JPanel implements MouseDragListener {
-	private final SolarSystem solarSystem;
+	private final List<ScalableBody> bodies;
 	private double zoomValue = 10;
 	private static boolean toggleNames = false;
 	private BufferedImage backgroundImage;
 	
 	// TODO rename these
-	private Vector previous;
-	private Vector offset = new Vector(0, 0);
+	private Vector previousMouseDragPosition;
+	private Vector viewportOffset = new Vector(0, 0);
 	
 	private final DimensionsFactory dimensionsFactory = new DimensionsFactory(); 
 
-	public SolarSystemView(SolarSystem solarSystem) throws MalformedURLException, IOException {
-		this.solarSystem = solarSystem;
+	public SolarSystemView(final List<ScalableBody> bodies) throws MalformedURLException, IOException {
+		this.bodies = bodies;;
 
 		addMouseListener(this);
 		addMouseMotionListener(this);
@@ -49,15 +50,17 @@ public class SolarSystemView extends JPanel implements MouseDragListener {
 		final int xCentre = getWidth() / 2;
 		final int yCentre = getHeight() / 2;
 
-		for (int i = 0; i < solarSystem.getBodies().size(); i++) {
-			final ImagedBody body = (ImagedBody) solarSystem.getBodies().get(i);
+		for (final ScalableBody scalableBody : bodies) {
+			// just for convenience.
+			final Body body = scalableBody.getBody();
 
 			// why are these split into declaration and assignment? XD
 			final int x;
 			final int y;
 
 			if (body.name.equals("moon")) {
-				final Body earth = solarSystem.getBodies().stream()
+				final Body earth = bodies.stream()
+						.map(ScalableBody::getBody)
 						.filter(test -> test.name.equals("earth"))
 						.findAny()
 						.orElseThrow(() -> new RuntimeException("what"));
@@ -76,29 +79,28 @@ public class SolarSystemView extends JPanel implements MouseDragListener {
 				y = yCentre + shorten(body.position.getY());
 			}
 
-			final Dimensions dimensions = getDimensionsForBody(body.name);
-
-			drawWithOffset(g, body.getImage(), x, y, dimensions);
+			// TODO check if the body is actually an imagedbody
+			
+			drawWithOffset(
+					g,
+					((ImagedBody) body).getImage(),
+					x,
+					y,
+					scalableBody.getScaleFactor().divide(zoomValue)
+			);
 
 			g.setColor(Color.WHITE);
 			if (toggleNames && body.name != "asteroid") {
 				drawName(g, body.name, x, y);
 			}
-
-			drawTime(g, solarSystem.getElapsedTicks(), 30, 30);
 		}
-
-	}
-
-	void drawTime(final Graphics g, double timer, final int x, final int y) {
-		// g.drawString("Time elapsed (days): " + Double.toString(timer), x, y);
 	}
 
 	void drawName(final Graphics g, final String name, final int x, final int y) {
-		g.drawString(Character.toUpperCase(name.charAt(0)) + name.substring(1), x + (int) offset.getX(), y + (int) offset.getY());
+		g.drawString(Character.toUpperCase(name.charAt(0)) + name.substring(1), x + (int) viewportOffset.getX(), y + (int) viewportOffset.getY());
 	}
 
-	Dimensions getDimensionsForBody(final String name) {
+	private Dimensions getDimensionsForBody(final String name) {
 		switch (name) {
 		case "sun":
 			return dimensionsFactory.square((int) (1200 / zoomValue));
@@ -120,7 +122,7 @@ public class SolarSystemView extends JPanel implements MouseDragListener {
 	}
 
 	void drawWithOffset(final Graphics g, final BufferedImage image, int x, int y, final Dimensions dimensions) {
-		g.drawImage(image, x - dimensions.getWidth() / 2 + (int) offset.getX(), y - dimensions.getHeight() / 2 + (int) offset.getY(),
+		g.drawImage(image, x - dimensions.getWidth() / 2 + (int) viewportOffset.getX(), y - dimensions.getHeight() / 2 + (int) viewportOffset.getY(),
 				dimensions.getWidth(), dimensions.getHeight(), null);
 	}
 
@@ -140,7 +142,7 @@ public class SolarSystemView extends JPanel implements MouseDragListener {
 	
 	@Override
 	public void mousePressed(MouseEvent e) {
-		previous = new Vector(e.getX(), e.getY());
+		previousMouseDragPosition = new Vector(e.getX(), e.getY());
 	}
 
 	@Override
@@ -148,9 +150,9 @@ public class SolarSystemView extends JPanel implements MouseDragListener {
 		final int x = e.getX();
 		final int y = e.getY();
 
-		final Vector delta = new Vector(x - previous.getX(), y - previous.getY());
-		offset = offset.add(delta);
-		previous = new Vector(x, y);
+		final Vector delta = new Vector(x - previousMouseDragPosition.getX(), y - previousMouseDragPosition.getY());
+		viewportOffset = viewportOffset.add(delta);
+		previousMouseDragPosition = new Vector(x, y);
 	}
 
 	public ItemListener toggleNames() {
