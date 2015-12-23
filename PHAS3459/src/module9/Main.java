@@ -3,14 +3,9 @@ package module9;
 import static module9.Constants.AU;
 import static module9.Constants.MASS_EARTH;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.Toolkit;
-import java.awt.event.ItemListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -18,26 +13,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.Timer;
 import javax.swing.WindowConstants;
 
 public class Main {
 
 	public static void main(String[] args) {
-
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
-		final double VIEW_WIDTH = screenSize.getWidth();
-		final double VIEW_HEIGHT = screenSize.getHeight();
-
-		Container container = new Container("Simple Solar System.");
-		container.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		container.setSize((int) VIEW_WIDTH, (int) VIEW_HEIGHT);
-		
 		final List<Body> bodies = new ArrayList<>();
 		try {
 			final ImagedBody centralBody = new ImagedBody("sun", 333054 * MASS_EARTH, new Vector(0, 0), new Vector(0, 0), "sun.png");
@@ -50,58 +31,49 @@ public class Main {
 
 			final int secondsInDay = 60 * 60 * 24;
 			final SolarSystem solarSystem = new SolarSystem(bodies, secondsInDay);
-			final SolarSystemView solarSystemView = new SolarSystemView(solarSystem);
-			container.add(solarSystemView);
 			
-			final JPanel widgets = new JPanel(new FlowLayout(FlowLayout.CENTER));
-			container.add(widgets, BorderLayout.SOUTH);
-			final JLabel timerLabel = new JLabel(Double.toString(solarSystem.getElapsedTicks()));
+			final Container container = setupContainer(solarSystem);
 			
-			// TODO this should be its own class
-			widgets.add(new JPanel(new GridLayout()) {
-				{
-					add(new JLabel("Time elapsed (years): "));
-					add(timerLabel);
-				}
-			}, BorderLayout.NORTH);
-
-			final ZoomPanel zoomPanel = new ZoomPanel((value) -> solarSystemView.zoom(value));
-			final JLabel zoomLabel = new JLabel("Zoom: ");
-			widgets.add(zoomLabel);
-			widgets.add(zoomPanel);
-
-			final JRadioButton toggleRadioButton = new JRadioButton();
-			final JLabel nameLabel = new JLabel("Toggle Names: ");
-			final ItemListener toggleNames = solarSystemView.toggleNames();
-			toggleRadioButton.addItemListener(toggleNames);
-			widgets.add(nameLabel);
-			widgets.add(toggleRadioButton);
-
-			// Timer stuff to get the application running
-			final int fps = 60;
-			final int updateFrequency = 60;
-
-			final Timer updateTimer = new Timer(1000 / updateFrequency, e -> {
-				solarSystem.tick();
-
-				final int days = (int) solarSystem.getElapsedTicks();
-
-				final int years = (int) (days / 365.24);
-				final int months = (int) (days % 365.24 / (365.24 / 12));
-
-				final String time = String.format("%d years, %d months", years, months);
-				timerLabel.setText(time);
-			});
-			
-			updateTimer.start();
-
-			final Timer drawTimer = new Timer(1000 / fps, e -> solarSystemView.draw());
-			drawTimer.start();
-
-			container.setVisible(true);
+			startTimers(solarSystem, container);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	private static Container setupContainer(final SolarSystem solarSystem) {
+		final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+		final double VIEW_WIDTH = screenSize.getWidth();
+		final double VIEW_HEIGHT = screenSize.getHeight();
+
+		final Container container = new Container("Simple Solar System.", solarSystem);
+		container.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		container.setSize((int) VIEW_WIDTH, (int) VIEW_HEIGHT);
+		container.setVisible(true);
+		
+		return container;
+	}
+	
+	// Timer things to get the application running
+	private static void startTimers(final SolarSystem solarSystem, final Container container) {
+		final int fps = 60;
+		final int updateFrequency = 60;
+
+		final Timer updateTimer = new Timer(1000 / updateFrequency, e -> {
+			solarSystem.tick();
+
+			final int days = (int) solarSystem.getElapsedTicks();
+
+			final int years = (int) (days / 365.24);
+			final int months = (int) (days % 365.24 / (365.24 / 12));
+
+			final String time = String.format("%d years, %d months", years, months);
+			container.setTimeIndicator(time);
+		});
+		
+		updateTimer.start();
+
+		final Timer drawTimer = new Timer(1000 / fps, e -> container.draw());
+		drawTimer.start();
 	}
 
 	private static boolean circleBandConstraint(Vector v, double bandMinimum, double bandMaximum) {
@@ -125,7 +97,7 @@ public class Main {
 		
 		System.out.println("Receiving images from GitHub: asteroid1.png");
 
-		// TODO: What does this method do?
+		// TODO: What does this loop do, and can it be a method?
 		while (asteroids.size() < numberOfAsteroids) {
 			final ImagedBody body = new ImagedBody("asteroid", 18.0e8 + 1e11 * Math.random(),
 					new Vector(-4 * AU + 8 * AU * Math.random(), -4 * AU + 8 * AU * Math.random()), new Vector(0, 0));
