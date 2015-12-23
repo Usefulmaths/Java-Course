@@ -14,11 +14,9 @@ public class ZoomPanel extends JPanel {
 	// Constructor accepts an IntConsumer which accepts the value of the
 	// slider whenever it has a new value. The consumers updates the zoom in the
 	// SolarSystemView zoom.
-	public ZoomPanel(final IntConsumer callback) {
+	public ZoomPanel(final IntConsumer consumer) {
 		final JSlider slider = new JSlider(100, 10000, 1000);
-		slider.addChangeListener(e -> {
-			callback.accept(slider.getValue() / 100);
-		});
+		slider.addChangeListener(e -> consumer.accept(slider.getValue() / 100));
 		// Adds slider to the panel.
 		add(slider);
 	}

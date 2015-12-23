@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.swing.JOptionPane;
+
 /**
  * SolarSystem class handles the main method which sets up what objects will be
  * present in the solar system and the container they will be displayed on. It
@@ -27,6 +29,9 @@ public class SolarSystem {
 	private double elapsedTicks = 0;
 
 	public static void main(String[] args) {
+		
+		// JOptionPane to give a description of the application. 
+		JOptionPane.showMessageDialog(null, "Hello!\nWelcome to this solar system simulator.\nClick and drag to move the viewport around, and drag the slider to zoom.\nHave fun!");
 
 		// This object deals with the setting up of the spatial objects, their
 		// initial conditions etc. Also sets up how the container is going to be
@@ -59,7 +64,8 @@ public class SolarSystem {
 
 		// Retrieves just the bodies of the scalableBodies list (without the
 		// dimensions)
-		final List<Body> justTheBodies = scalableBodies.stream().map(ScalableBody::getBody)
+		final List<Body> justTheBodies = scalableBodies.stream()
+				.map(ScalableBody::getBody)
 				.collect(Collectors.toList());
 
 		// Instantiates SolarSystem object to set bodies list and
@@ -84,8 +90,13 @@ public class SolarSystem {
 	// Calculates the total force felt on a body by all the other bodies in the
 	// solarSystem.
 	public Vector calculateTotalForce(final Body body) {
-		return bodies.stream().filter(test -> test != body).map(body::calculateForce).reduce(Vector.VECTOR_ZERO,
-				Vector::add);
+		return bodies.stream()
+				.filter(test -> test != body)
+				.map(body::calculateForce)
+				.reduce(
+						Vector.VECTOR_ZERO,
+						Vector::add
+				);
 	}
 
 	// Each tick calculates the force on each individual body by every other
@@ -99,7 +110,8 @@ public class SolarSystem {
 			forcesToApply.put(body, totalForce);
 		});
 
-		forcesToApply.entrySet().forEach(entrySet -> {
+		forcesToApply.entrySet()
+		.forEach(entrySet -> {
 			entrySet.getKey().incrementMovement(entrySet.getValue(), secondsPerTick);
 		});
 	}

@@ -25,8 +25,8 @@ public class Dimensions {
 		return height;
 	}
 
-	// Allows the division of Dimensions object by a number. Divides both width
-	// and height by that number.
+	// Returns a new Dimensions object that is the original one with it's
+	// components divided by number.
 	public Dimensions divide(final double number) {
 		return new Dimensions((int) (width / number), (int) (height / number));
 	}

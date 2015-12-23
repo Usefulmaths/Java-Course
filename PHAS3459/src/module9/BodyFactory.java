@@ -8,8 +8,7 @@ import javax.imageio.ImageIO;
 
 /**
  * BodyFactory class allows us to create new Body objects, either Body or
- * ImagedBody, depending on whether the URL is able to send a request for an
- * image stored under a URL named filename.
+ * ImagedBody, depending on whether it is possible to retrieve an image based on the a URL and the filename.
  */
 public class BodyFactory {
 
@@ -18,15 +17,14 @@ public class BodyFactory {
 		// Tries to retrieve an image from URL, if it is successful, creates an
 		// ImagedBody object with that image.
 		try {
-			System.out.println("Requesting image from GitHub: " + filename);
+			System.out.println("Requesting image: " + filename);
 			BufferedImage image = ImageIO.read(new URL(filename));
-			ImagedBody imagedBody = new ImagedBody(name, mass, position, velocity, image);
-			return imagedBody;
+			return new ImagedBody(name, mass, position, velocity, image);
 		}
-		// If unsuccessful, creates a Body object instead (same parameters, no image).
+		// If unsuccessful, creates a Body object instead (same parameters, no
+		// image).
 		catch (IOException e) {
-			Body body = new Body(name, mass, position, velocity);
-			return body;
+			return new Body(name, mass, position, velocity);
 		}
 	}
 }

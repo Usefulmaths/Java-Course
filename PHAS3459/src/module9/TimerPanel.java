@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 
 /**
  * TimerPanel class extends JPanel and allows us to set up a display for the
- * time elapsed since the start of opening the application
+ * time elapsed since the start of opening the application.
  */
 public class TimerPanel extends JPanel {
 	// timerLabel used to display time elapsed.

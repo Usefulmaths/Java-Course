@@ -19,9 +19,7 @@ import javax.swing.WindowConstants;
 /**
  * SolarSystemCreator class has the sole purpose of setting everything up within
  * the project to be used in SolarSystem. This includes the container, the
- * timer, creating simple solar system and creating asteroid belt. Would split
- * this class into more but unfortunately reached the upload limit for this
- * project.
+ * timer, creating simple solar system and creating asteroid belt.
  */
 public class SolarSystemCreator {
 
@@ -84,7 +82,8 @@ public class SolarSystemCreator {
 		drawTimer.start();
 	}
 
-	// Constraint used to form rings of asteroids.
+	// Constraint used on asteroids positions in order for them to form a nice
+	// ring.
 	private static boolean circleBandConstraint(Vector v, double bandMinimum, double bandMaximum) {
 		// If distance from sun is between bandMinimum and bandMaximum return
 		// true.
@@ -106,12 +105,12 @@ public class SolarSystemCreator {
 		return new Vector(velocity * Math.cos(velocityAngle), velocity * Math.sin(velocityAngle));
 	}
 
-	// Creates a list of solary system objects such as planets and comets.
+	// Creates a list of solar system objects such as planets and comets.
 	public List<ScalableBody> createSimpleSolarSystem(final Body centralBody) {
 		// Default scale factor for images.
 		final int defaultScaleFactor = 400;
 
-		// Intiail earth position and velocity used for positioning moon.
+		// Initial earth position and velocity used for positioning moon.
 		final Vector initialEarthPosition = new Vector(0.9833 * AU, 0);
 		final Vector initialEarthVelocity = new Vector(0, -30290);
 
@@ -157,7 +156,8 @@ public class SolarSystemCreator {
 	}
 
 	// Creates Body object asteroid with random positions (must satisfy
-	// circleCondition) and adds them to a ScalableBody list to be returned.
+	// circleBandConstraint) and adds them to a ScalableBody list to be
+	// returned.
 	private static List<ScalableBody> createAsteroids(final int numberOfAsteroids, final Body centralBody) {
 
 		final List<ScalableBody> asteroids = new ArrayList<>();
@@ -178,7 +178,8 @@ public class SolarSystemCreator {
 	}
 
 	// Creates ImagedBody object asteroid with random positions (must satisfy
-	// circleCondition) and adds them to a ScalableBody list to be returned.
+	// circleBandConstraint) and adds them to a ScalableBody list to be
+	// returned.
 	private static List<ScalableBody> createImagedAsteroids(final int numberOfAsteroids, final Body centralBody,
 			final BufferedImage image) throws IOException {
 
@@ -221,10 +222,10 @@ public class SolarSystemCreator {
 		// To prevent importing hundreds of the same image, split create
 		// asteroid methods into two. One that accepts an image parameter and
 		// one that doesn't. createImagedAsteroids deals with images and
-		// createAsteroids don't. Depending on whether the image is obtainable
+		// createAsteroids doesn't. Depending on whether the image is obtainable
 		// through URL, return the appropriate list.
 		try {
-			System.out.println("Requesting image from GitHub: asteroid1.png");
+			System.out.println("Requesting image: asteroid1.png");
 			final BufferedImage asteroidImage = ImageIO.read(new URL(imageURL("asteroid1.png")));
 
 			final List<ScalableBody> asteroids = createImagedAsteroids(numberOfAsteroids, centralBody, asteroidImage);
@@ -235,7 +236,6 @@ public class SolarSystemCreator {
 			System.out.println("Could not receive image, defaulting to circle.");
 
 			final List<ScalableBody> asteroids = createAsteroids(numberOfAsteroids, centralBody);
-
 			asteroids.addAll(Arrays.asList(ceres, pallas, vesta, hygiea));
 
 			return asteroids;
@@ -243,7 +243,7 @@ public class SolarSystemCreator {
 	}
 
 	// Returns image URL for images with a tag on "name".
-	private static String imageURL(String name) {
+	private static String imageURL(final String name) {
 		return "https://raw.githubusercontent.com/Usefulmaths/module9images/master/" + name;
 	}
 }

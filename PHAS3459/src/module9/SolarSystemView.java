@@ -65,11 +65,11 @@ public class SolarSystemView extends JPanel implements MouseDragListener {
 		// Sets default background to black.
 		setBackground(Color.BLACK);
 
-		// Draws all bodies to screen.
-		drawBodies(g);
-
 		// Draws imported backgroundImage to screen.
 		g.drawImage(backgroundImage, 0, 0, null);
+		
+		// Draws all bodies to screen.
+		drawBodies(g);
 	}
 
 	// Takes into account scaling and relative offsets to draw bodies
@@ -88,10 +88,10 @@ public class SolarSystemView extends JPanel implements MouseDragListener {
 			final int y;
 
 			// If the body is the moon, give it a special offset so its orbit is
-			// viewable on the scales we're working with
+			// viewable on the scales we're working with.
 			if (body.name.equals("moon")) {
 
-				// Finds earth body in bodies.
+				//Find the earth body to offset the moon by filtering on the name "earth".
 				final Body earth = bodies.stream().map(ScalableBody::getBody).filter(test -> test.name.equals("earth"))
 						.findAny().orElseThrow(() -> new RuntimeException("Couldn't find earth body in bodies."));
 
@@ -146,17 +146,23 @@ public class SolarSystemView extends JPanel implements MouseDragListener {
 	// Using offsets and scalings, draw imported image.
 	private void drawWithOffset(final Graphics g, final BufferedImage image, final int x, final int y,
 			final Dimensions dimensions) {
-		g.drawImage(image, x - dimensions.getWidth() / 2 + (int) viewportOffset.getX(),
-				y - dimensions.getHeight() / 2 + (int) viewportOffset.getY(), dimensions.getWidth(),
-				dimensions.getHeight(), null);
+		g.drawImage(image,
+					x - dimensions.getWidth() / 2 + (int) viewportOffset.getX(),
+					y - dimensions.getHeight() / 2 + (int) viewportOffset.getY(), 
+					dimensions.getWidth(),
+					dimensions.getHeight(), null
+		);
 	}
 
 	// Using offsets and scalings, draw default filled circle.
 	private void drawOvalWithOffset(final Graphics g, final int x, final int y, final Dimensions dimensions) {
 		g.setColor(Color.YELLOW);
-		g.fillOval(x - dimensions.getWidth() / 2 + (int) viewportOffset.getX(),
-				y - dimensions.getHeight() / 2 + (int) viewportOffset.getY(), dimensions.getWidth(),
-				dimensions.getHeight());
+		g.fillOval(
+				x - dimensions.getWidth() / 2 + (int) viewportOffset.getX(),
+				y - dimensions.getHeight() / 2 + (int) viewportOffset.getY(),
+				dimensions.getWidth(),
+				dimensions.getHeight()
+		);
 	}
 
 	// Normalises distances between planets down to an appropriate size for

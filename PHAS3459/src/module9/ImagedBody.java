@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 /**
  * ImagedBody class extends Body. Inherits all the properties of body and adds
  * an additional BufferedImage property so is able to be displayed on screen by
- * an image imported from a URL
+ * an image imported from a URL.
  */
 public class ImagedBody extends Body {
 	// Holds an image, ready for displaying on screen.

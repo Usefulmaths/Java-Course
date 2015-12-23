@@ -14,7 +14,7 @@ import javax.swing.JRadioButton;
  * Container class deals with all the views found in the project. The drawing of
  * the spatial entities, the timer, zoom slider, and toggle name radio button.
  * 
- * Extends JFrame
+ * Extends JFrame as it is the main frame in the application.
  */
 public class Container extends JFrame {
 
@@ -34,7 +34,8 @@ public class Container extends JFrame {
 		setupViews(solarSystem);
 	}
 
-	// A method to draw the SolarSystemView.
+	// A method to draw the SolarSystemView. The panels repaint themselves on
+	// updated values.
 	public void draw() {
 		solarSystemView.draw();
 	}

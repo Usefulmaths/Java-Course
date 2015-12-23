@@ -35,19 +35,19 @@ public class Body {
 
 	// Calculates the force vector between two bodies using Newton's law of
 	// universal gravitation.
-	public Vector calculateForce(Body other) {
+	public final Vector calculateForce(Body other) {
 		final double force = Constants.G * other.mass * this.mass / Math.pow(separationVector(other).magnitude(), 2);
 
-		final double fx = force * Math.cos(separationVector(other).angle());
-		final double fy = force * Math.sin(separationVector(other).angle());
+		final double forceX = force * Math.cos(separationVector(other).angle());
+		final double forceY = force * Math.sin(separationVector(other).angle());
 
-		return new Vector(fx, fy);
+		return new Vector(forceX, forceY);
 	}
 
 	// Uses the total amount of force acting on this body by all the other
 	// bodies to find an change in velocity and position using Newton's second
 	// law.
-	public void incrementMovement(final Vector overallForce, double timeStep) {
+	public void incrementMovement(final Vector overallForce, final double timeStep) {
 		final Vector acceleration = overallForce.divide(this.mass);
 
 		final Vector changeVelocity = acceleration.multiply(timeStep);
