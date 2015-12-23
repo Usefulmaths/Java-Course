@@ -116,8 +116,7 @@ public class SolarSystemCreator {
 		final Vector initialEarthVelocity = new Vector(0, -30290);
 
 		// Returns a list of ScalableBody planets and comets within simple solar
-		// system
-		// with initial conditions for true orbits.
+		// system with initial conditions for true orbits.
 		List<ScalableBody> bodies = Arrays.asList(
 				new ScalableBody(BodyFactory.create(centralBody.name, centralBody.mass, centralBody.position,
 						centralBody.velocity, imageURL("sun.png")), dimensionsFactory.square(1200)),

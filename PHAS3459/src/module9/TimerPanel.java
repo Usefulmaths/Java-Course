@@ -17,7 +17,7 @@ public class TimerPanel extends JPanel {
 		super(new GridLayout());
 
 		// Add JLabel to TimerPanel text.
-		add(new JLabel("Time elapsed (years): "));
+		add(new JLabel("Time elapsed: "));
 
 		// Add JLabel to TimerPanel time text.
 		timerLabel = new JLabel(initialTime);

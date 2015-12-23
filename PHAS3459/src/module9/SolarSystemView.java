@@ -153,7 +153,7 @@ public class SolarSystemView extends JPanel implements MouseDragListener {
 
 	// Using offsets and scalings, draw default filled circle.
 	private void drawOvalWithOffset(final Graphics g, final int x, final int y, final Dimensions dimensions) {
-		g.setColor(Color.BLUE);
+		g.setColor(Color.YELLOW);
 		g.fillOval(x - dimensions.getWidth() / 2 + (int) viewportOffset.getX(),
 				y - dimensions.getHeight() / 2 + (int) viewportOffset.getY(), dimensions.getWidth(),
 				dimensions.getHeight());
