@@ -32,7 +32,7 @@ public class ImagedBody extends Body {
 	/**
 	 * Sets the image.
 	 * <p>
-	 * This required in order to allow setting the Asteroid image
+	 * This is required in order to allow setting the Asteroid image
 	 * after loading it once.
 	 * 
 	 * @param image the image to use.

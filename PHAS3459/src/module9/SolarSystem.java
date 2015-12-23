@@ -5,15 +5,16 @@ import java.util.List;
 import java.util.Map;
 
 public class SolarSystem {
-	private static List<ImagedBody> bodies;
-	private static final int secondsPerTick = 24 * 60 * 60;
-	private static double elapsedTicks = 0;
+	private final List<Body> bodies;
+	private final int secondsPerTick;
+	private double elapsedTicks = 0;
 
-	public SolarSystem(final List<ImagedBody> bodies) {
+	public SolarSystem(final List<Body> bodies, final int secondsPerTick) {
 		this.bodies = bodies;
+		this.secondsPerTick = secondsPerTick;
 	}
 
-	public Vector calculateTotalForce(final ImagedBody body) {
+	public Vector calculateTotalForce(final Body body) {
 		return bodies.stream()
 				.filter(test -> test != body)
 				.map(body::calculateForce)
@@ -25,7 +26,7 @@ public class SolarSystem {
 
 	public void tick() {
 		elapsedTicks++;
-		final Map<ImagedBody, Vector> forcesToApply = new HashMap<>();
+		final Map<Body, Vector> forcesToApply = new HashMap<>();
 
 		bodies.forEach(body -> {
 			final Vector totalForce = calculateTotalForce(body);
@@ -37,15 +38,15 @@ public class SolarSystem {
 		});
 	}
 
-	public static List<ImagedBody> getBodies() {
+	public List<Body> getBodies() {
 		return bodies;
 	}
 
-	public static int getSecondsPerTick() {
+	public int getSecondsPerTick() {
 		return secondsPerTick;
 	}
 
-	public static double getElapsedTicks() {
+	public double getElapsedTicks() {
 		return elapsedTicks;
 	}
 }

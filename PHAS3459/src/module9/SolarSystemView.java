@@ -32,7 +32,7 @@ public class SolarSystemView extends JPanel implements MouseDragListener {
 		addMouseMotionListener(this);
 
 		backgroundImage = ImageIO.read(new URL(
-				"https://raw.githubusercontent.com/Usefulmaths/PHAS3459/master/PHAS3459/starbackground.png?token=AIggDmvwT53JTjCXM4w-CMNfsJIE627Iks5WggaiwA%3D%3D"));
+				"https://raw.githubusercontent.com/Usefulmaths/module9images/master/starbackground.png"));
 
 	}
 
@@ -57,7 +57,9 @@ public class SolarSystemView extends JPanel implements MouseDragListener {
 			final int y;
 
 			if (body.name.equals("moon")) {
-				final ImagedBody earth = solarSystem.getBodies().stream().filter(test -> test.name.equals("earth")).findAny()
+				final Body earth = solarSystem.getBodies().stream()
+						.filter(test -> test.name.equals("earth"))
+						.findAny()
 						.orElseThrow(() -> new RuntimeException("what"));
 
 				final Vector offsetFromEarth = body.separationVector(earth).unitVector().multiply(500)
@@ -83,7 +85,7 @@ public class SolarSystemView extends JPanel implements MouseDragListener {
 				drawName(g, body.name, x, y);
 			}
 
-			drawTime(g, SolarSystem.getElapsedTicks(), 30, 30);
+			drawTime(g, solarSystem.getElapsedTicks(), 30, 30);
 		}
 
 	}
