@@ -172,7 +172,6 @@ public class SolarSystemView extends JPanel implements MouseDragListener {
 
 	// Sets zoomValue
 	public void zoom(final int auPixels) {
-		System.out.println("zoom called with value: " + auPixels);
 		zoomValue = auPixels;
 	}
 
