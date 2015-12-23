@@ -54,9 +54,10 @@ public class Main {
 			container.add(solarSystemView);
 			
 			
+			
 			final JPanel widgets = new JPanel(new FlowLayout(FlowLayout.CENTER));
 			container.add(widgets, BorderLayout.SOUTH);
-			final JLabel timerLabel = new JLabel(Double.toString(solarSystem.timer));
+			final JLabel timerLabel = new JLabel(Double.toString(solarSystem.getElapsedTicks()));
 			widgets.add(new JPanel(new GridLayout()) {
 				{
 					add(new JLabel("Time elapsed (years): "));
@@ -83,7 +84,7 @@ public class Main {
 			final Timer updateTimer = new Timer(1000 / updateFrequency, e -> {
 				solarSystem.tick();
 
-				final int days = (int) solarSystem.timer;
+				final int days = (int) solarSystem.getElapsedTicks();
 
 				final int years = (int) (days / 365.24);
 				final int months = (int) (days % 365.24 / (365.24 / 12));
@@ -106,7 +107,7 @@ public class Main {
 	}
 
 	private static boolean circleBandConstraint(Vector v, double bandMinimum, double bandMaximum) {
-		if (bandMinimum < Math.sqrt(v.x * v.x + v.y * v.y) && Math.sqrt(v.x * v.x + v.y * v.y) < bandMaximum) {
+		if (bandMinimum < Math.sqrt(v.getX() * v.getX() + v.getY()* v.getY()) && Math.sqrt(v.getX() * v.getX() + v.getY() * v.getY()) < bandMaximum) {
 			return true;
 		}
 		return false;
@@ -128,7 +129,7 @@ public class Main {
 		while (asteroids.size() < numberOfAsteroids) {
 			ImagedBody body = new ImagedBody("asteroid", 18.0e8 + 1e11 * Math.random(),
 					new Vector(-4 * AU + 8 * AU * Math.random(), -4 * AU + 8 * AU * Math.random()), new Vector(0, 0));
-			body.image = asteroidImage;
+			body.setImage(asteroidImage);
 
 			body.velocity = velocityPerpendicularToPosition(body, centralBody);
 
@@ -160,30 +161,18 @@ public class Main {
 		Vector initialEarthVelocity = new Vector(0, -30290);
 
 		List<ImagedBody> simpleSolarSystem = Arrays.asList(centralBody,
-				new ImagedBody("mercury", 0.0553 * MASS_EARTH, new Vector(0.313 * AU, 0), new Vector(0, -58980),
-						"mercury.png"),
-				new ImagedBody("venus", 0.815 * MASS_EARTH, new Vector(0.731 * AU, 0), new Vector(0, -35260),
-						"venus.png"),
+				new ImagedBody("mercury", 0.0553 * MASS_EARTH, new Vector(0.313 * AU, 0), new Vector(0, -58980), "mercury.png"),
+				new ImagedBody("venus", 0.815 * MASS_EARTH, new Vector(0.731 * AU, 0), new Vector(0, -35260), "venus.png"),
 				new ImagedBody("earth", MASS_EARTH, initialEarthPosition, initialEarthVelocity, "earth.png"),
-
-				new ImagedBody("moon", 0.0123 * MASS_EARTH, initialEarthPosition.add(new Vector(0.00247 * AU, 0)),
-						initialEarthVelocity.add(new Vector(0, -1076)), "moon.png"),
-
+				new ImagedBody("moon", 0.0123 * MASS_EARTH, initialEarthPosition.add(new Vector(0.00247 * AU, 0)), initialEarthVelocity.add(new Vector(0, -1076)), "moon.png"),
 				new ImagedBody("mars", 0.11 * MASS_EARTH, new Vector(1.405 * AU, 0), new Vector(0, -26500), "mars.png"),
-				new ImagedBody("jupiter", 317.8 * MASS_EARTH, new Vector(5.034 * AU, 0), new Vector(0, -13720),
-						"jupiter.png"),
-				new ImagedBody("saturn", 95.2 * MASS_EARTH, new Vector(9.2 * AU, 0), new Vector(0, -10180),
-						"saturn.png"),
-				new ImagedBody("uranus", 14.5 * MASS_EARTH, new Vector(18.64 * AU, 0), new Vector(0, -7100),
-						"uranus.png"),
-				new ImagedBody("neptune", 17.1 * MASS_EARTH, new Vector(29.81 * AU, 0), new Vector(0, -5500),
-						"neptune.png"),
-				new ImagedBody("pluto (we still love you)", 0.0025 * MASS_EARTH, new Vector(30.16 * AU, 0),
-						new Vector(0, -6100), "pluto.png"),
-				new ImagedBody("halley's Comet", 2.2 * 10e14, new Vector(35.1 * AU, 0), new Vector(0, -897),
-						"tempel_1.png"),
-				new ImagedBody("tempel 1 (Comet)", 7.2e13, new Vector(0, 1.5 * AU), new Vector(30050, 0),
-						"tempel_1.png"));
+				new ImagedBody("jupiter", 317.8 * MASS_EARTH, new Vector(5.034 * AU, 0), new Vector(0, -13720), "jupiter.png"),
+				new ImagedBody("saturn", 95.2 * MASS_EARTH, new Vector(9.2 * AU, 0), new Vector(0, -10180), "saturn.png"),
+				new ImagedBody("uranus", 14.5 * MASS_EARTH, new Vector(18.64 * AU, 0), new Vector(0, -7100), "uranus.png"),
+				new ImagedBody("neptune", 17.1 * MASS_EARTH, new Vector(29.81 * AU, 0), new Vector(0, -5500), "neptune.png"),
+				new ImagedBody("pluto (we still love you)", 0.0025 * MASS_EARTH, new Vector(30.16 * AU, 0), new Vector(0, -6100), "pluto.png"),
+				new ImagedBody("halley's Comet", 2.2 * 10e14, new Vector(35.1 * AU, 0), new Vector(0, -897),"tempel_1.png"),
+				new ImagedBody("tempel 1 (Comet)", 7.2e13, new Vector(0, 1.5 * AU), new Vector(30050, 0), "tempel_1.png"));
 
 		return simpleSolarSystem;
 	}

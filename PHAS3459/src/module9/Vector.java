@@ -7,33 +7,33 @@ public class Vector {
 	public final static Vector VECTOR_ZERO = new Vector(0, 0);
 
 	// x component of vector
-	public final double x;
+	private final double x;
 
 	// y component of vector
-	public final double y;
+	private final double y;
 
-	public Vector(double x, double y) {
+	public Vector(final double x, final double y) {
 		this.x = x;
 		this.y = y;
 	}
 
 	// Creates new Vector that is the addition of this vector & another vector.
-	public Vector add(Vector other) {
+	public Vector add(final Vector other) {
 		return new Vector(this.x + other.x, this.y + other.y);
 	}
 
 	// Creates new Vector that is the subtraction of this vector & another vector.
-	public Vector subtract(Vector other) {
+	public Vector subtract(final Vector other) {
 		return new Vector(this.x - other.x, this.y - other.y);
 	}
 
 	// Creates new vector that is this vector multiplied by a scalar.
-	public Vector multiply(double number) {
+	public Vector multiply(final double number) {
 		return new Vector(this.x * number, this.y * number);
 	}
 
 	// Creates new vector that is this vector divided by a scalar.
-	public Vector divide(double number) {
+	public Vector divide(final double number) {
 		return new Vector(this.x / number, this.y / number);
 	}
 
@@ -47,6 +47,7 @@ public class Vector {
 		return Math.atan2(y, x);
 	}
 	
+	
 	public Vector unitVector(){
 		return this.divide(this.magnitude());
 	}
@@ -54,6 +55,14 @@ public class Vector {
 	@Override
 	public String toString() {
 		return "Vector [x=" + x + ", y=" + y + "]";
+	}
+
+	public double getX() {
+		return x;
+	}
+
+	public double getY() {
+		return y;
 	}
 
 }

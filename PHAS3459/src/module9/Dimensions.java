@@ -1,15 +1,19 @@
 package module9;
 
 public class Dimensions {
-	public final int width;
-	public final int height;
-
-	public static Dimensions square(final int length) {
-		return new Dimensions(length, length);
-	}
+	private final int width;
+	private final int height;
 
 	public Dimensions(final int width, final int height) {
 		this.width = width;
 		this.height = height;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
 	}
 }

@@ -6,6 +6,10 @@
 .classpath
 bin/
 
+# IntelliJ IDEA
+.idea/
+*.iml
+
 # Java
 *.class
 
