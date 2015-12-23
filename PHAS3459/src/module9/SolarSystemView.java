@@ -19,6 +19,7 @@ public class SolarSystemView extends JPanel implements MouseDragListener {
 	private static boolean toggleNames = false;
 	private BufferedImage backgroundImage;
 	
+	// TODO rename these
 	private Vector previous;
 	private Vector offset = new Vector(0, 0);
 	

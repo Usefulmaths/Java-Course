@@ -157,10 +157,10 @@ public class Main {
 
 	private static List<ImagedBody> retrieveSimpleSolarSystem(ImagedBody centralBody) throws IOException {
 
-		Vector initialEarthPosition = new Vector(0.9833 * AU, 0);
-		Vector initialEarthVelocity = new Vector(0, -30290);
+		final Vector initialEarthPosition = new Vector(0.9833 * AU, 0);
+		final Vector initialEarthVelocity = new Vector(0, -30290);
 
-		List<ImagedBody> simpleSolarSystem = Arrays.asList(centralBody,
+		final List<ImagedBody> simpleSolarSystem = Arrays.asList(centralBody,
 				new ImagedBody("mercury", 0.0553 * MASS_EARTH, new Vector(0.313 * AU, 0), new Vector(0, -58980), "mercury.png"),
 				new ImagedBody("venus", 0.815 * MASS_EARTH, new Vector(0.731 * AU, 0), new Vector(0, -35260), "venus.png"),
 				new ImagedBody("earth", MASS_EARTH, initialEarthPosition, initialEarthVelocity, "earth.png"),

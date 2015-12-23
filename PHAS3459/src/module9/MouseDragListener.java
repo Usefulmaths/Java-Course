@@ -4,6 +4,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+/**
+ * Combines MouseListener and MouseMotionListener and provides default (empty)
+ * implementations of the methods that are not required to observe Drag events
+ * (i.e., {@code mousePressed} and {@code mouseDragged}).
+ */
 public interface MouseDragListener extends MouseListener, MouseMotionListener {
 	@Override
 	default void mouseMoved(MouseEvent e) {

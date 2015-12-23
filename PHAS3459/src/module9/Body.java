@@ -4,8 +4,8 @@ import java.awt.Graphics;
 
 public class Body {
 
-	protected String name;
-	protected double mass;
+	protected final String name;
+	protected final double mass;
 	protected Vector position;
 	protected Vector velocity;
 

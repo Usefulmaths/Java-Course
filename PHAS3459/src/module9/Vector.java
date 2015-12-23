@@ -47,7 +47,6 @@ public class Vector {
 		return Math.atan2(y, x);
 	}
 	
-	
 	public Vector unitVector(){
 		return this.divide(this.magnitude());
 	}
