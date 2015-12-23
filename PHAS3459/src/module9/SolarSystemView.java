@@ -14,13 +14,14 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import com.sun.media.jai.opimage.DivideByConstCRIF;
+
 public class SolarSystemView extends JPanel implements MouseDragListener {
 	private final List<ScalableBody> bodies;
 	private double zoomValue = 10;
 	private static boolean toggleNames = false;
 	private BufferedImage backgroundImage;
 	
-	// TODO rename these
 	private Vector previousMouseDragPosition;
 	private Vector viewportOffset = new Vector(0, 0);
 	
@@ -34,7 +35,6 @@ public class SolarSystemView extends JPanel implements MouseDragListener {
 
 		backgroundImage = ImageIO.read(new URL(
 				"https://raw.githubusercontent.com/Usefulmaths/module9images/master/starbackground.png"));
-
 	}
 
 	@Override
@@ -80,14 +80,22 @@ public class SolarSystemView extends JPanel implements MouseDragListener {
 			}
 
 			// TODO check if the body is actually an imagedbody
-			
-			drawWithOffset(
-					g,
-					((ImagedBody) body).getImage(),
-					x,
-					y,
-					scalableBody.getScaleFactor().divide(zoomValue)
-			);
+			if (body instanceof ImagedBody) {
+				drawWithOffset(
+						g,
+						((ImagedBody) body).getImage(),
+						x,
+						y,
+						scalableBody.getScaleFactor().divide(zoomValue)
+				);
+			} else {
+				drawOvalWithOffset(
+						g,
+						x,
+						y,
+						scalableBody.getScaleFactor().divide(zoomValue)
+				);
+			}
 
 			g.setColor(Color.WHITE);
 			if (toggleNames && body.name != "asteroid") {
@@ -96,34 +104,23 @@ public class SolarSystemView extends JPanel implements MouseDragListener {
 		}
 	}
 
-	void drawName(final Graphics g, final String name, final int x, final int y) {
+	private void drawName(final Graphics g, final String name, final int x, final int y) {
 		g.drawString(Character.toUpperCase(name.charAt(0)) + name.substring(1), x + (int) viewportOffset.getX(), y + (int) viewportOffset.getY());
 	}
 
-	private Dimensions getDimensionsForBody(final String name) {
-		switch (name) {
-		case "sun":
-			return dimensionsFactory.square((int) (1200 / zoomValue));
-		case "jupiter":
-			return dimensionsFactory.square((int) (800 / zoomValue));
-		case "uranus":
-			return dimensionsFactory.square((int) (800 / zoomValue));
-		case "neptune":
-			return dimensionsFactory.square((int) (800 / zoomValue));
-		case "saturn":
-			return dimensionsFactory.square((int) (800 / zoomValue));
-		case "asteroid":
-			return dimensionsFactory.square((int) (150 / zoomValue));
-		case "moon":
-			return dimensionsFactory.square((int) (100 / zoomValue));
-		default:
-			return dimensionsFactory.square((int) (400 / zoomValue));
-		}
-	}
-
-	void drawWithOffset(final Graphics g, final BufferedImage image, int x, int y, final Dimensions dimensions) {
+	void drawWithOffset(final Graphics g, final BufferedImage image, final int x, final int y, final Dimensions dimensions) {
 		g.drawImage(image, x - dimensions.getWidth() / 2 + (int) viewportOffset.getX(), y - dimensions.getHeight() / 2 + (int) viewportOffset.getY(),
 				dimensions.getWidth(), dimensions.getHeight(), null);
+	}
+	
+	void drawOvalWithOffset(final Graphics g, final int x, final int y, final Dimensions dimensions) {
+		g.setColor(Color.BLUE);
+		g.fillOval(
+				x - dimensions.getWidth() / 2 + (int) viewportOffset.getX(),
+				y - dimensions.getHeight()/ 2 + (int) viewportOffset.getY(),
+				dimensions.getWidth(),
+				dimensions.getHeight()
+		);
 	}
 
 	private int shorten(double value) {
