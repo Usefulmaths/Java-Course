@@ -1,6 +1,8 @@
 package module9;
 
-//A vector class to enable mathematical manipulation of vectors.
+/**
+ * A vector class to enable mathematical manipulation of vectors.
+ */
 public class Vector {
 
 	// A vector with all components equal to zero.
@@ -22,7 +24,8 @@ public class Vector {
 		return new Vector(this.x + other.x, this.y + other.y);
 	}
 
-	// Creates new Vector that is the subtraction of this vector & another vector.
+	// Creates new Vector that is the subtraction of this vector & another
+	// vector.
 	public Vector subtract(final Vector other) {
 		return new Vector(this.x - other.x, this.y - other.y);
 	}
@@ -46,8 +49,9 @@ public class Vector {
 	public double angle() {
 		return Math.atan2(y, x);
 	}
-	
-	public Vector unitVector(){
+
+	// Creates a new vector that is the unitVector of this vector.
+	public Vector unitVector() {
 		return this.divide(this.magnitude());
 	}
 
@@ -56,10 +60,12 @@ public class Vector {
 		return "Vector [x=" + x + ", y=" + y + "]";
 	}
 
+	// Retrieves the x component of the vector.
 	public double getX() {
 		return x;
 	}
 
+	// Retrieves the y component of the vector.
 	public double getY() {
 		return y;
 	}
