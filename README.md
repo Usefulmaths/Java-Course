@@ -29,5 +29,5 @@ Graphics
 ### exam1
 The midterm exam for the course.
 
-## exam2
+### exam2
 The final exam for the course.
